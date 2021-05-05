@@ -33,8 +33,8 @@ const screens = {
 // home stack navigator screens
 const IncidentStack = createStackNavigator(screens, {
   defaultNavigationOptions: {
-    headerTintColor: '#444',
-    headerStyle: { backgroundColor: '#eee', height: 60 }
+    headerTintColor: 'white',
+    headerStyle: { backgroundColor: '#1A237E', height: 80 }
   }
 });
 

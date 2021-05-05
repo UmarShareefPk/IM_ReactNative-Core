@@ -1,16 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, {useState} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Login from './screens/Login';
 import Navigator from './navigation/drawer';
 
 export default function App() {
-  return (
-    // <View style={styles.container}>
-    // <Text>This is APP 1</Text>
-     <Navigator />
-    // </View>
-  );
+  const [loginStatus, setLoginStatus] = useState(false);
+
+  if (loginStatus) return <Navigator />;
+  else return <Login setLoginStatus = {setLoginStatus} />;
+
 }
 
 const styles = StyleSheet.create({
