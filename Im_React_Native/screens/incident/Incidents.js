@@ -1,13 +1,12 @@
 import React from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { Button, Input, FAB  } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons'; 
 
 import Incident from './Incident';
 
-export default function Incidents({navigation}) {
-  
+export default function Incidents({navigation,screenProps}) {
+  console.log("navigation.screenProps",screenProps.login);
     return (
       <View style={styles.container}>
         <Input
@@ -17,7 +16,7 @@ export default function Incidents({navigation}) {
         />
         <View style={styles.btnContainer}>
 
-            <TouchableOpacity style={styles.buttonBox} >
+            <TouchableOpacity style={styles.buttonBox} onPress={()=>screenProps.login(false)} >
             <MaterialIcons name="navigate-before" size={24} color="green" />
                 <Text style={styles.button}> Prevous 5 </Text>
                
@@ -30,9 +29,11 @@ export default function Incidents({navigation}) {
 
         </View>
 
-        <Incident />
-        <Incident />
-        <Incident />
+        <Incident navigation={navigation} />
+        <Incident navigation={navigation} />
+        <Incident navigation={navigation} />
+        <Incident navigation={navigation} />
+        <Incident navigation={navigation} />
 
         {/* <Button
           title="Go to Details"
