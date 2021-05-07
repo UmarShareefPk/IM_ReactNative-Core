@@ -145,6 +145,7 @@ const IncidentDescription = ({type}) => {
 
 
 const IncidentAttachments = (props) => {
+  const [editAble, setEditAble] = useState(false);
   let files = [
     { Id: 1, FileName: "File 1 abdkadkjadshkahd bjdaksjhdk" },
     { Id: 2, FileName: "File 2" },
@@ -155,27 +156,37 @@ const IncidentAttachments = (props) => {
   ];
 
   const renderFiles = ({ item }) => {
+    
     return (
       <View style={styles.attchment}>
-        <TouchableOpacity>
-          <MaterialIcons name="delete-outline" size={24} color="red" />
-        </TouchableOpacity>
+        {editAble ? (
+          <TouchableOpacity style={{ marginRight: 7 }}>
+            <MaterialIcons name="cancel" size={27} color="red" />
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity style={{ marginRight: 10 }}>
+            <MaterialIcons name="file-download" size={27} color="blue" />
+          </TouchableOpacity>
+        )}
+
         <Text>{item.FileName}</Text>
-        <TouchableOpacity>
-          <MaterialIcons name="file-download" size={24} color="blue" />
-        </TouchableOpacity>
       </View>
     );
   };
 
   return (
-    <View >
-      <FlatList
-      style={styles.attchments}
-        numColumns={2}
-       // contentContainerStyle = {{justifyContent:'space-between',}}
-        style = {{flex: 1, }}
-        data={files}
+    <View style={styles.attchments}>
+          <TouchableOpacity onPress={() => setEditAble(!editAble)}>
+        <Text style={{ fontWeight: "bold", marginLeft: 5 }}>
+          Attachments
+          <Feather name="edit-2" size={20} color="black" />
+        </Text>
+      </TouchableOpacity>
+      <FlatList      
+        //numColumns={2}
+        contentContainerStyle = {{justifyContent:'center',}}
+        style = {{flex: 1,marginTop:10}} 
+        data={files} 
         renderItem={renderFiles} 
         keyExtractor={(file, index) => file.Id}
       />
@@ -254,16 +265,17 @@ const styles = StyleSheet.create({
     },
     attchments :{
       width: Dimensions.get('window').width,
-      // flex:1/2,
-      // flexDirection:"row",
-      // justifyContent:'center',
-      backgroundColor:'gray'
+       flex:1,
+    
+       justifyContent:'center',
+    //  backgroundColor:'gray'
     },
     attchment:{
       // width: Dimensions.get('window').width,
        flexDirection:'row',
-      // textAlign:'center',
-      backgroundColor:'pink'
+       marginLeft:30,
+       textAlign:'right',
+     // backgroundColor:'pink'
     }
 
 });
