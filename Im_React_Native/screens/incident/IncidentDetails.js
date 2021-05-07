@@ -1,85 +1,189 @@
 import React,{useState} from 'react'
-import { View, Text, StyleSheet, TouchableOpacity , Dimensions } from 'react-native';
-import { Button, Input, FAB  } from 'react-native-elements';
+import { View, Text, StyleSheet, TouchableOpacity , Dimensions, FlatList } from 'react-native';
+import { Button, Input, FAB, Card  } from 'react-native-elements';
 import { Feather, FontAwesome5, MaterialIcons   } from '@expo/vector-icons'; 
 
 export default function IncidentDetails(props) {
     //const width1 = Dimensions.get('window').width; //full width
     const id = props.navigation.getParam('Id');
-    const [descriptionEdit, setDescriptionEdit] = useState(false);
+    
     //console.log(props);
     return (
       <View style={styles.container}>
+        <IncidentTitle />
+        <IncidentFields />
+        <IncidentDescription type="description" />
+        <IncidentDescription type="addtionalData" />  
+        <IncidentAttachments />
+      </View>
+    );
+}
+
+const IncidentTitle = (props) => {
+  const [editAble, setEditAble] = useState(false);
+  return (
+    <View>
+      {editAble ? (
+        <View style={styles.titleArea}>
+          <Input placeholder="Enter new Title"  />
+
+          <View style={styles.editbtnsBox}>
+            <FAB
+              title="Cancel"
+              color="orange"
+              onPress={() => setEditAble(false)}
+              icon={<MaterialIcons name="cancel" size={30} color="white" />}
+            />
+            <FAB
+              title="Save"
+              style={{ marginLeft: 10 }}
+              color="green"
+              icon={<FontAwesome5 name="save" size={30} color="white" />}
+            />
+          </View>
+        </View>
+      ) : (
         <View style={styles.titleArea}>
           <Text style={styles.title}>
             Title will go here in case of long tile there will be space
             available below
+            <TouchableOpacity onPress={() => setEditAble(!editAble)}>
+              <Feather name="edit-2" size={24} color="black" />
+            </TouchableOpacity>
           </Text>
           <Text style={styles.timestamp}>
             {" "}
             Created by {"Ali Raza"} 7 days ago
           </Text>
         </View>
-        {/*............................ Fields  ................................................*/}
-        <View style={styles.fields}>
-          <Text style={styles.field}>
-            Status: <Text style={styles.fieldValue}>New</Text>
-          </Text>
-          <Text style={styles.field}>
-            Assigned To: <Text style={styles.fieldValue}>Umar Shareef</Text>
+      )}
+    </View>
+  );
+}
+
+const IncidentFields = (props) => {
+  return (
+    <View>
+      <View style={styles.fields}>
+        <Text style={styles.field}>
+          Status: <Text style={styles.fieldValue}>New</Text>
+        </Text>
+
+        <Text style={styles.field}>
+          Assigned To: <Text style={styles.fieldValue}>Umar Shareef</Text>
+        </Text>
+
+      </View>
+
+      <View style={styles.fields}>
+
+        <Text style={styles.field}>
+          Due Date: <Text style={styles.fieldValue}>In 2 Days</Text>
+        </Text>
+
+        <Text style={styles.field}>
+          Start Date: <Text style={styles.fieldValue}>In 2 Days</Text>
+        </Text>
+
+      </View>
+    </View>
+  );
+}
+
+const IncidentDescription = ({type}) => {
+ 
+  const [editAble, setEditAble] = useState(false);
+  const [currentValue, setCurrentValue] = useState(`  Description here. All the Expo apps do share the exact same native runtime (RN + ExpoKit), the only difference is the JS that we give
+  them. ... Actually as the Expo SDK can be upgraded, the Expo client  includes a compatibility layer so that it is able to run the last 5  SDK versions`);
+  const [newValue, setNewValue] = useState("");
+
+  const update = () =>{
+    setEditAble(false);
+    setCurrentValue(newValue);
+  }
+
+  return (
+    <View style={styles.descriptionBox}>
+      <TouchableOpacity onPress={() => setEditAble(!editAble)}>
+        <Text style={{ fontWeight: "bold", marginLeft: 5 }}>
+         {type =='description' ? "Description" : "Additional Details"} 
+          <Feather name="edit-2" size={20} color="black" />
+        </Text>
+      </TouchableOpacity>
+
+      {editAble ? (
+        <View style={styles.editBox}>
+          <Input placeholder="Enter new description" multiline={true} onChangeText ={(v) => setNewValue(v) } />
+
+          <View style={styles.editbtnsBox}>
+            <FAB
+              title="Cancel"
+              color="orange"
+              onPress={() => setEditAble(false)}
+              icon={<MaterialIcons name="cancel" size={30} color="white" />}
+            />
+            <FAB
+              title="Save"
+              style={{ marginLeft: 10 }}
+              color="green"
+              onPress={() => update()}
+              icon={<FontAwesome5 name="save" size={30} color="white" />}
+            />
+          </View>
+        </View>
+      ) : (
+        <View style={styles.editBox}>
+          <Text style={styles.descriptionText}>
+            {currentValue}
           </Text>
         </View>
-        <View style={styles.fields}>
-          <Text style={styles.field}>
-            Due Date: <Text style={styles.fieldValue}>In 2 Days</Text>
-          </Text>
+      )}
+    </View>
+  );
+}
 
-          <Text style={styles.field}>
-            Start Date: <Text style={styles.fieldValue}>In 2 Days</Text>
-          </Text>
-        </View>
 
-        {/*............................ Description  ................................................*/}
-        <View style={styles.descriptionBox}>
-          <Text style={{ fontWeight: "bold", marginLeft:5 }}>
-            Description 
-            <TouchableOpacity onPress={()=> setDescriptionEdit(!descriptionEdit)}>
-                <Feather name="edit-2" size={18} color="black" />
-            </TouchableOpacity>
-          </Text>
-          {descriptionEdit ? (
-            <View style={styles.editBox}>
-                
-              <Input placeholder="Enter new description" multiline={true} />
-              
-              <View style={styles.editbtnsBox}>
-                <TouchableOpacity>
-                  <MaterialIcons name="cancel" size={30} color="orange" />
-                </TouchableOpacity>
-                <TouchableOpacity style={{ marginLeft: 10 }}>
-                  <FontAwesome5 name="save" size={30} color="green" />
-                </TouchableOpacity>
-              </View>
-            </View>
-          ) : (
-            <View style={styles.editBox}>
-              <Text style={{ color: "gray", fontSize: 13 }}>
-                Description here. All the Expo apps do share the exact same
-                native runtime (RN + ExpoKit), the only difference is the JS
-                that we give them. ... Actually as the Expo SDK can be upgraded,
-                the Expo client includes a compatibility layer so that it is
-                able to run the last 5 SDK versions
-              </Text>
-            </View>
-          )}
-        </View>
-    
- {/*............................ Additional Data  ................................................*/}
 
-        {/* end of container below*/}
+const IncidentAttachments = (props) => {
+  let files = [
+    { Id: 1, FileName: "File 1 abdkadkjadshkahd bjdaksjhdk" },
+    { Id: 2, FileName: "File 2" },
+    { Id: 3, FileName: "File 12" },
+    { Id: 4, FileName: "File 12" },
+    { Id: 5, FileName: "File 13" },
+    { Id: 6, FileName: "File 1d" },
+  ];
+
+  const renderFiles = ({ item }) => {
+    return (
+      <View style={styles.attchment}>
+        <TouchableOpacity>
+          <MaterialIcons name="delete-outline" size={24} color="red" />
+        </TouchableOpacity>
+        <Text>{item.FileName}</Text>
+        <TouchableOpacity>
+          <MaterialIcons name="file-download" size={24} color="blue" />
+        </TouchableOpacity>
       </View>
     );
-}
+  };
+
+  return (
+    <View >
+      <FlatList
+      style={styles.attchments}
+        numColumns={2}
+       // contentContainerStyle = {{justifyContent:'space-between',}}
+        style = {{flex: 1, }}
+        data={files}
+        renderItem={renderFiles} 
+        keyExtractor={(file, index) => file.Id}
+      />
+    </View>
+  );
+};
+
+
 
 const styles = StyleSheet.create({
     container :{
@@ -92,6 +196,7 @@ const styles = StyleSheet.create({
         alignItems : 'center'
     },
     titleArea:{
+      width: Dimensions.get('window').width , 
         alignSelf:'stretch',
         padding:15,
         borderBottomWidth:0.5
@@ -118,7 +223,8 @@ const styles = StyleSheet.create({
         paddingHorizontal:20,
         marginTop:5,
         flexDirection:'row',
-        justifyContent:'space-between'    
+        justifyContent:'space-between' ,
+        width: Dimensions.get('window').width  
     },
     field:{
        color:'black',
@@ -132,6 +238,12 @@ const styles = StyleSheet.create({
        padding:10,         
        borderBottomWidth:0.5  
     },
+    descriptionText:{ 
+      color: "gray", 
+      fontSize: 13, 
+      textAlign:'center',      
+      width: Dimensions.get('window').width,
+    },
     editBox:{
         padding:10, 
         width: Dimensions.get('window').width
@@ -139,6 +251,19 @@ const styles = StyleSheet.create({
     editbtnsBox:{
         flexDirection:'row',
         justifyContent:"center"
+    },
+    attchments :{
+      width: Dimensions.get('window').width,
+      // flex:1/2,
+      // flexDirection:"row",
+      // justifyContent:'center',
+      backgroundColor:'gray'
+    },
+    attchment:{
+      // width: Dimensions.get('window').width,
+       flexDirection:'row',
+      // textAlign:'center',
+      backgroundColor:'pink'
     }
 
 });
