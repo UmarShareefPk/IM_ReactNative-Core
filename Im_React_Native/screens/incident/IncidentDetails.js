@@ -9,7 +9,7 @@ export default function IncidentDetails(props) {
     const id = props.navigation.getParam('Id');
 
     const tabs = ['Details', 'Actions', 'Comments'];
-    const [selectedTab, setSelectedTab] = useState(1);
+    const [selectedTab, setSelectedTab] = useState(0);
 
     const tabChanged = (selectedIndex) => {
       setSelectedTab(selectedIndex);
@@ -54,7 +54,9 @@ const IncidentTitle = (props) => {
   const [editAble, setEditAble] = useState(false);
   return (
     <View>
-      {editAble ? (
+      {
+      editAble ?
+       (
         <View style={styles.titleArea}>
           <Input placeholder="Enter new Title"  />
           <View style={styles.editbtnsBox}>
@@ -72,7 +74,8 @@ const IncidentTitle = (props) => {
             />
           </View>
         </View>
-      ) : (
+      ) : 
+      (
         <View style={styles.titleArea}>
           <Text style={styles.title}>
             Title will go here in case of long tile there will be space
