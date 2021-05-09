@@ -1,9 +1,10 @@
 import React from 'react'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
 import { Button, Input, FAB  } from 'react-native-elements';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons'; 
 
 import Incident from './Incident';
+
 
 export default function Incidents({navigation,screenProps}) {
   console.log("navigation.screenProps",screenProps.login);
@@ -28,13 +29,13 @@ export default function Incidents({navigation,screenProps}) {
             </TouchableOpacity>
 
         </View>
-
-        <Incident navigation={navigation} />
-        <Incident navigation={navigation} />
-        <Incident navigation={navigation} />
-        <Incident navigation={navigation} />
-        <Incident navigation={navigation} />
-
+        <ScrollView>
+          <Incident navigation={navigation} />
+          <Incident navigation={navigation} />
+          <Incident navigation={navigation} />
+          <Incident navigation={navigation} />
+          <Incident navigation={navigation} />
+        </ScrollView>
         {/* <Button
           title="Go to Details"
           onPress={() => navigation.navigate("IncidentDetails", { Id: 123 })}

@@ -250,6 +250,7 @@ const styles = StyleSheet.create({
        borderBottomWidth:0.5  
     },
     descriptionText:{ 
+      padding:10,
       color: "gray", 
       fontSize: 13, 
       textAlign:'center',      
