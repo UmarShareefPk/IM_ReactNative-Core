@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
         alignItems:'center'
     },
     button:{      
-        fontSize:12,
+        fontSize:18,
         color:'green'
     }
 

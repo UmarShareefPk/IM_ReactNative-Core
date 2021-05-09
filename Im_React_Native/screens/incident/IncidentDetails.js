@@ -206,6 +206,7 @@ const styles = StyleSheet.create({
         justifyContent:'flex-start',
         alignItems : 'center'
     },
+    
     titleArea:{
       width: Dimensions.get('window').width , 
         alignSelf:'stretch',
@@ -218,17 +219,13 @@ const styles = StyleSheet.create({
         fontSize:18
     },
     timestamp :{
+      marginTop:5,
         textAlign:'right',
         fontSize:10,
         color:'#848B98',
     },
-    descriptionAndFields:{
-        alignSelf: 'stretch',        
-        flexDirection:'row',
-        justifyContent:'space-between',
-        alignItems:'flex-start',
-        borderBottomWidth:0.5
-    },
+
+
     fields:{   
         alignSelf:'stretch',
         paddingHorizontal:20,
@@ -245,6 +242,8 @@ const styles = StyleSheet.create({
         color:'#848B98',
         fontWeight:'bold'
     },
+
+
     descriptionBox:{      
        padding:10,         
        borderBottomWidth:0.5  
@@ -264,6 +263,9 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         justifyContent:"center"
     },
+
+
+
     attchments :{
       width: Dimensions.get('window').width,
        flex:1,
