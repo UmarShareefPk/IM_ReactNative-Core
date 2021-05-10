@@ -37,12 +37,19 @@ const IncidentAttachments = (props) => {
   
     return (
       <View style={styles.attchments}>
-            <TouchableOpacity onPress={() => setEditAble(!editAble)}>
-          <Text style={{ fontWeight: "bold", marginLeft: 5 }}>
-            Attachments
-            <Feather name="edit-2" size={20} color="black" />
+      
+        <View style={styles.title}>
+          <Text style={styles.titleText}>
+             Attachments
           </Text>
-        </TouchableOpacity>
+          <Button
+            onPress={() => setEditAble(!editAble)}
+            title=""
+            buttonStyle={styles.editBtn}            
+            icon={<Feather name="edit-2" size={13} color="white" />}
+          />
+        </View>
+
         <FlatList      
           //numColumns={2}
           contentContainerStyle = {{justifyContent:'center',}}
@@ -59,6 +66,21 @@ const IncidentAttachments = (props) => {
   export default IncidentAttachments;
 
   const styles = StyleSheet.create({
+    title :{
+        flexDirection:'row',
+        alignItems:'center',
+        justifyContent:'space-around',
+        marginTop:5
+    },
+    titleText:{
+        fontWeight:'bold',
+        color:'#1A237E',
+    },
+    editBtn:{
+        color:'red',
+        backgroundColor:'#1A237E',
+       // marginTop:5
+    },
     attchments :{
       width: Dimensions.get('window').width,
        flex:1,    

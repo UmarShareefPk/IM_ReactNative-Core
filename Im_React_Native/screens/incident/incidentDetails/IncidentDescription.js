@@ -1,6 +1,6 @@
 import React,{useState} from 'react'
 import { View, Text, StyleSheet, TouchableOpacity , Dimensions, FlatList } from 'react-native';
-import { Button, Input, FAB, ButtonGroup  } from 'react-native-elements';
+import { Button, Input, FAB  } from 'react-native-elements';
 import { Feather, FontAwesome5, MaterialIcons,    } from '@expo/vector-icons'; 
 import { ScrollView } from 'react-native';
 
@@ -18,17 +18,27 @@ const IncidentDescription = ({type}) => {
   
     return (
       <View style={styles.descriptionBox}>
-        <TouchableOpacity onPress={() => setEditAble(!editAble)}>
-          <Text style={{ fontWeight: "bold", marginLeft: 5 }}>
-           {type =='description' ? "Description" : "Additional Details"} 
-            <Feather name="edit-2" size={20} color="black" />
+      
+        <View style={styles.title}>
+          <Text style={styles.titleText}>
+            {type == "description" ? "Description" : "Additional Details"}
           </Text>
-        </TouchableOpacity>
-  
+          <Button
+            onPress={() => setEditAble(!editAble)}
+            title=""
+            buttonStyle={styles.editBtn}            
+            icon={<Feather name="edit-2" size={13} color="white" />}
+          />
+        </View>
+
         {editAble ? (
           <View style={styles.editBox}>
-            <Input placeholder="Enter new description" multiline={true} onChangeText ={(v) => setNewValue(v) } />
-  
+            <Input
+              placeholder="Enter new description"
+              multiline={true}
+              onChangeText={(v) => setNewValue(v)}
+            />
+
             <View style={styles.editbtnsBox}>
               <FAB
                 title="Cancel"
@@ -47,9 +57,7 @@ const IncidentDescription = ({type}) => {
           </View>
         ) : (
           <View style={styles.editBox}>
-            <Text style={styles.descriptionText}>
-              {currentValue}
-            </Text>
+            <Text style={styles.descriptionText}>{currentValue}</Text>
           </View>
         )}
       </View>
@@ -61,15 +69,31 @@ export default IncidentDescription;
 
 const styles = StyleSheet.create({
   descriptionBox: {
-    padding: 10,
+    //padding: 10,
     borderBottomWidth: 0.5,
   },
+  title :{
+      flexDirection:'row',
+      alignItems:'center',
+      justifyContent:'space-around',
+      marginTop:5
+  },
+  titleText:{
+      fontWeight:'bold',
+      color:'#1A237E',
+  },
   descriptionText: {
-    padding: 10,
+    padding: 0,
+    paddingRight:30,
     color: "gray",
     fontSize: 13,
     textAlign: "center",
     width: Dimensions.get("window").width,
+  },
+  editBtn:{
+      color:'red',
+      backgroundColor:'#1A237E',
+     // marginTop:5
   },
   editBox: {
     padding: 10,
