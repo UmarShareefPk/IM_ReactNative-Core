@@ -31,10 +31,7 @@ import { Feather, FontAwesome5, MaterialIcons,    } from '@expo/vector-icons';
             <View style={styles.titleArea}>
               <Text style={styles.title}>
                 Title will go here in case of long tile there will be space
-                available below
-                {/* <TouchableOpacity onPress={() => setEditAble(!editAble)} style={{alignText:'right'}}>
-                <Feather name="edit-2" size={24} color="black" />
-              </TouchableOpacity> */}
+                available below                
               </Text>
               <View style={styles.titleEdit}>
                 <Text style={styles.timestamp}>
@@ -45,7 +42,7 @@ import { Feather, FontAwesome5, MaterialIcons,    } from '@expo/vector-icons';
                   title=""
                   width="25"
                   buttonStyle={styles.editBtn}
-                  icon={<Feather name="edit-2" size={13} color="white" />}
+                  icon={<Feather name="edit-2" size={20} color="#1A237E" />}
                 />
               </View>
             </View>
@@ -83,8 +80,9 @@ import { Feather, FontAwesome5, MaterialIcons,    } from '@expo/vector-icons';
     }, 
     editBtn:{
       color:'red',
-      backgroundColor:'#1A237E',
-      width:50,
+     // backgroundColor:'#1A237E',
+      backgroundColor:'white',
+     // width:50,
       textAlign:'right'
      // marginTop:5
   },

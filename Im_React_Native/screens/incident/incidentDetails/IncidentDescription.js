@@ -27,7 +27,7 @@ const IncidentDescription = ({type}) => {
             onPress={() => setEditAble(!editAble)}
             title=""
             buttonStyle={styles.editBtn}            
-            icon={<Feather name="edit-2" size={13} color="white" />}
+            icon={<Feather name="edit-2" size={20} color="#1A237E" />}
           />
         </View>
 
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width,
   },
   editBtn:{     
-    backgroundColor:'#1A237E',     
+    backgroundColor:'white',     
   },
   editBox: {
     padding: 10,

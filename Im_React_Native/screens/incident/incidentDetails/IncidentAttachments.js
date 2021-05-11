@@ -46,7 +46,7 @@ const IncidentAttachments = (props) => {
             onPress={() => setEditAble(!editAble)}
             title=""
             buttonStyle={styles.editBtn}            
-            icon={<Feather name="edit-2" size={13} color="white" />}
+            icon={<Feather name="edit-2" size={20} color="#1A237E" />}
           />
         </View>
 
@@ -79,7 +79,7 @@ const IncidentAttachments = (props) => {
     },
     editBtn:{
         color:'red',
-        backgroundColor:'#1A237E',
+        backgroundColor:'white',
        // marginTop:5
     },
     attchments :{
