@@ -37,20 +37,18 @@ import { Feather, FontAwesome5, MaterialIcons,    } from '@expo/vector-icons';
               </TouchableOpacity> */}
               </Text>
               <View style={styles.titleEdit}>
-              
-            <Text style={styles.timestamp}>
-              Created by {"Ali Raza"} 7 days ago
-            </Text>
-              <Button
-                onPress={() => setEditAble(!editAble)}
-                title=""
-                width="25"
-                buttonStyle={styles.editBtn}
-                icon={<Feather name="edit-2" size={13} color="white" />}
-              />
+                <Text style={styles.timestamp}>
+                  Created by {"Ali Raza"} 7 days ago 1
+                </Text>
+                <Button
+                  onPress={() => setEditAble(!editAble)}
+                  title=""
+                  width="25"
+                  buttonStyle={styles.editBtn}
+                  icon={<Feather name="edit-2" size={13} color="white" />}
+                />
+              </View>
             </View>
-            </View>
-            
           </>
         )}
       </View>
