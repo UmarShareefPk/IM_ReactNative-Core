@@ -5,7 +5,7 @@ import React from 'react';
 
 import Incidents from '../screens/incident/Incidents';
 import Incident from '../screens/incident/Incident';
-import IncidentDetails from '../screens/incident/IncidentDetails';
+import IncidentDetails from '../screens/incident/incidentDetails/IncidentDetails';
 
 const screens = {
   // Home: {

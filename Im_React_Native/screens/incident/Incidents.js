@@ -7,6 +7,7 @@ import Incident from './Incident';
 
 
 export default function Incidents({navigation,screenProps}) {
+  
   console.log("navigation.screenProps",screenProps.login);
     return (
       <View style={styles.container}>
