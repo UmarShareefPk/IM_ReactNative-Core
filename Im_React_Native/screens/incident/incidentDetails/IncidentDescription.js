@@ -68,14 +68,14 @@ const IncidentDescription = ({type}) => {
 export default IncidentDescription;
 
 const styles = StyleSheet.create({
-  descriptionBox: {
-    //padding: 10,
+  descriptionBox: {   
     borderBottomWidth: 0.5,
   },
   title :{
       flexDirection:'row',
       alignItems:'center',
-      justifyContent:'space-around',
+      justifyContent:'space-between',
+      paddingHorizontal:20,
       marginTop:5
   },
   titleText:{
@@ -90,10 +90,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     width: Dimensions.get("window").width,
   },
-  editBtn:{
-      color:'red',
-      backgroundColor:'#1A237E',
-     // marginTop:5
+  editBtn:{     
+    backgroundColor:'#1A237E',     
   },
   editBox: {
     padding: 10,

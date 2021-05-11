@@ -1,6 +1,6 @@
 import React,{useState} from 'react'
 import { View, Text, StyleSheet, TouchableOpacity , Dimensions } from 'react-native';
-import { Input, FAB  } from 'react-native-elements';
+import { Input, FAB, Button  } from 'react-native-elements';
 import { Feather, FontAwesome5, MaterialIcons,    } from '@expo/vector-icons'; 
 
 
@@ -8,11 +8,9 @@ import { Feather, FontAwesome5, MaterialIcons,    } from '@expo/vector-icons';
     const [editAble, setEditAble] = useState(false);
     return (
       <View>
-        {
-        editAble ?
-         (
+        {editAble ? (
           <View style={styles.titleArea}>
-            <Input placeholder="Enter new Title"  />
+            <Input placeholder="Enter new Title" />
             <View style={styles.editbtnsBox}>
               <FAB
                 title="Cancel"
@@ -28,21 +26,32 @@ import { Feather, FontAwesome5, MaterialIcons,    } from '@expo/vector-icons';
               />
             </View>
           </View>
-        ) : 
-        (
-          <View style={styles.titleArea}>
-            <Text style={styles.title}>
-              Title will go here in case of long tile there will be space
-              available below
-              <TouchableOpacity onPress={() => setEditAble(!editAble)}>
+        ) : (
+          <>
+            <View style={styles.titleArea}>
+              <Text style={styles.title}>
+                Title will go here in case of long tile there will be space
+                available below
+                {/* <TouchableOpacity onPress={() => setEditAble(!editAble)} style={{alignText:'right'}}>
                 <Feather name="edit-2" size={24} color="black" />
-              </TouchableOpacity>
-            </Text>
+              </TouchableOpacity> */}
+              </Text>
+              <View style={styles.titleEdit}>
+              
             <Text style={styles.timestamp}>
-              {" "}
               Created by {"Ali Raza"} 7 days ago
             </Text>
-          </View>
+              <Button
+                onPress={() => setEditAble(!editAble)}
+                title=""
+                width="25"
+                buttonStyle={styles.editBtn}
+                icon={<Feather name="edit-2" size={13} color="white" />}
+              />
+            </View>
+            </View>
+            
+          </>
         )}
       </View>
     );
@@ -50,25 +59,39 @@ import { Feather, FontAwesome5, MaterialIcons,    } from '@expo/vector-icons';
 
   export default IncidentTitle;
 
-  const styles = StyleSheet.create({
-  
-
+  const styles = StyleSheet.create({ 
     titleArea:{
       width: Dimensions.get('window').width , 
         alignSelf:'stretch',
         padding:15,
-        borderBottomWidth:0.5
+       // flexDirection:'row',
+       // marginHorizontal:10
+       // borderBottomWidth:0.5
     },
     title :{
         textAlign:'left',
         color:'#1A237E',
         fontSize:18
     },
+    titleEdit:{
+      flexDirection:'row',
+      justifyContent:'space-between'
+    },
     timestamp :{
       marginTop:5,
         textAlign:'right',
-        fontSize:10,
+        fontSize:11,
         color:'#848B98',
     }, 
-
+    editBtn:{
+      color:'red',
+      backgroundColor:'#1A237E',
+      width:50,
+      textAlign:'right'
+     // marginTop:5
+  },
+    editbtnsBox: {
+      flexDirection: "row",
+      justifyContent: "center",
+    },
 });

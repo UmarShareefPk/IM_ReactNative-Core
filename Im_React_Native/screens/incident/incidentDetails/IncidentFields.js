@@ -40,18 +40,18 @@ const IncidentFields = (props) => {
     fields:{   
         alignSelf:'stretch',
         paddingHorizontal:20,
-        marginVertical:15,
+        marginVertical:5,
         flexDirection:'row',
         justifyContent:'space-between' ,
         width: Dimensions.get('window').width  
     },
     field:{
-       color:'black',
-        fontSize:13
+       color:'#1A237E',
+        fontSize:12
     },
     fieldValue:{
         color:'#848B98',
-        fontWeight:'bold'
+        //cfontWeight:'bold'
     },
 
 

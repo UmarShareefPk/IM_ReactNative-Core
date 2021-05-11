@@ -12,7 +12,7 @@ export default function IncidentDetails(props) {
     //const width1 = Dimensions.get('window').width; //full width
     const id = props.navigation.getParam('Id');
 
-    const tabs = ['Details', 'Actions', 'Comments'];
+    const tabs = ['Details',  'Comments'];
     const [selectedTab, setSelectedTab] = useState(0);
 
     const tabChanged = (selectedIndex) => {
@@ -47,7 +47,12 @@ export default function IncidentDetails(props) {
           onPress={tabChanged}
           selectedIndex={selectedTab}
           buttons={tabs}
-          containerStyle={{ height: 50 }}
+          containerStyle={{ height: 30, backgroundColor:'gray'}}
+          textStyle={{color:'white'}}
+          selectedButtonStyle = {{backgroundColor:'#1A237E'}}
+         // selectedTextStyle = {{color:'red'}}
+         innerBorderStyle = {{width:2, color:'white'}}
+         
         />
 
       {renderByTab()}

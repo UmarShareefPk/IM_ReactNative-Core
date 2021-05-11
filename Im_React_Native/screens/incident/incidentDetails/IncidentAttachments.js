@@ -69,7 +69,8 @@ const IncidentAttachments = (props) => {
     title :{
         flexDirection:'row',
         alignItems:'center',
-        justifyContent:'space-around',
+        justifyContent:'space-between',
+        paddingHorizontal:20,
         marginTop:5
     },
     titleText:{
