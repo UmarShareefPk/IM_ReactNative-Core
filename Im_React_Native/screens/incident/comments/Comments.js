@@ -3,15 +3,13 @@ import { View, Text, ScrollView } from 'react-native';
 import Comment from './Comment'
 
 const Comments = () => {
-    return (
-
-        <View>
-           <ScrollView>
-                <Comment />
-                <Comment />
-                <Comment />
-           </ScrollView>
-        </View>
+    return (        
+        <ScrollView>
+            <Comment />
+            <Comment />
+            <Comment />
+            <Comment />
+        </ScrollView>    
     )
 }
 

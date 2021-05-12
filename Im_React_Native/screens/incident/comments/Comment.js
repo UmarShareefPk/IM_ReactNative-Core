@@ -1,10 +1,15 @@
-import React from 'react';
+import React,{useState} from 'react'
 import { View, Text, StyleSheet, Dimensions, Alert } from 'react-native';
 import { Button, Input, FAB, ButtonGroup  } from 'react-native-elements';
 import { Feather, FontAwesome5, MaterialIcons,    } from '@expo/vector-icons'; 
 import { TouchableOpacity } from 'react-native';
+import CommentAttachments from './CommentAttachments';
 
 const Comment = () => {
+    const [editAble, setEditAble] = useState(false);
+    const [viewAttchments, setViewAttchments] = useState(false);
+    const [currentValue, setCurrentValue] = useState(` "The general population doesn't know what's happening, and it doesn't even know that it doesn't know." ~ Noam Chomsky`);
+    const [newValue, setNewValue] = useState("");
 
     const deleteComment = () => {
         Alert.alert(
@@ -33,7 +38,7 @@ const Comment = () => {
                 </View>               
                 <Text style={{fontSize:10, color:'blue'}}>3 days ago</Text>
                 <View style={styles.commentBtns}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={()=> setEditAble(!editAble)}>
                         <Feather name="edit-2" size={18} color="#1A237E" />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={deleteComment}>
@@ -42,11 +47,49 @@ const Comment = () => {
                 </View>
             </View>
 
-            <View>
-                <Text  style={styles.commentText}>
-                   A Palestinian child running after the bodies of his father and brother during their funeral procession in #Gaza. They were killed yesterday by Israeli airstrikes
-                </Text>
+                     
+        {editAble ? (
+          <View >
+            <Input
+              placeholder="Enter comment"
+              multiline={true}
+              defaultValue={currentValue}
+              onChangeText={(v) => setNewValue(v)}
+            />
+
+            <View style={styles.editbtnsBox}>
+              <FAB
+                title="Cancel"
+                color="orange"
+                onPress={() => setEditAble(false)}
+                icon={<MaterialIcons name="cancel" size={30} color="white" />}
+              />
+              <FAB
+                title="Save"
+                style={{ marginLeft: 10 }}
+                color="green"
+                onPress={() => update()}
+                icon={<FontAwesome5 name="save" size={30} color="white" />}
+              />
             </View>
+          </View>
+        ) : (
+          <View>
+            <Text  style={styles.commentText}>
+                  {currentValue}
+                </Text>
+          </View>
+        )}
+
+        <TouchableOpacity onPress={()=> setViewAttchments(!viewAttchments)}>
+           <Text>View Attachments</Text> 
+        </TouchableOpacity>
+        {viewAttchments? 
+            (<CommentAttachments editAble={editAble} />)
+            :
+            null
+        }
+        
 
         </View>
     )
@@ -82,5 +125,9 @@ const styles = StyleSheet.create({
         paddingHorizontal: 8,
         color: 'grey'
     },
+    editbtnsBox: {
+        flexDirection: "row",
+        justifyContent: "center",
+      },
 
 });
