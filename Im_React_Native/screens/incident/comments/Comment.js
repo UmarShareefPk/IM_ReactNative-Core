@@ -82,8 +82,9 @@ const Comment = () => {
         )}
 
         <TouchableOpacity onPress={()=> setViewAttchments(!viewAttchments)}>
-           <Text>View Attachments</Text> 
+           <Text style={styles.viewAttachmentsToggleText}> {viewAttchments? "Hide Attachments" : "Show Attachments" }</Text> 
         </TouchableOpacity>
+
         {viewAttchments? 
             (<CommentAttachments editAble={editAble} />)
             :
@@ -128,6 +129,12 @@ const styles = StyleSheet.create({
     editbtnsBox: {
         flexDirection: "row",
         justifyContent: "center",
+      },
+      viewAttachmentsToggleText:{
+          color:'blue',
+          paddingHorizontal:10,
+          marginTop:5,
+          
       },
 
 });
