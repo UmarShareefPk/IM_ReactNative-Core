@@ -7,6 +7,7 @@ import IncidentTitle from './IncidentTitle';
 import IncidentFields from './IncidentFields';
 import IncidentDescription from './IncidentDescription';
 import IncidentAttachments from './IncidentAttachments';
+import Comments from '../comments/Comments'
 
 export default function IncidentDetails(props) {
     //const width1 = Dimensions.get('window').width; //full width
@@ -21,6 +22,7 @@ export default function IncidentDetails(props) {
     
   const renderByTab = () => {
     let tab = selectedTab;
+    console.log(tab,"tab");
     if (tab == 0)
       return (
         <>
@@ -32,7 +34,7 @@ export default function IncidentDetails(props) {
         </>
       )
     else if (tab == 1)
-      return (<IncidentFields />)
+      return (<Comments />)
     if (tab == 2)
       return (<IncidentFields />)
 
