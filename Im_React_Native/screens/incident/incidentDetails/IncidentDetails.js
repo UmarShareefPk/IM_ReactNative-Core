@@ -49,8 +49,8 @@ export default function IncidentDetails(props) {
           onPress={tabChanged}
           selectedIndex={selectedTab}
           buttons={tabs}
-          containerStyle={{ height: 30, backgroundColor:'gray'}}
-          textStyle={{color:'white'}}
+          containerStyle={{ height: 30, backgroundColor:'white'}}
+          textStyle={{color:'#1A237E'}}
           selectedButtonStyle = {{backgroundColor:'#1A237E'}}
          // selectedTextStyle = {{color:'red'}}
          innerBorderStyle = {{width:2, color:'white'}}
