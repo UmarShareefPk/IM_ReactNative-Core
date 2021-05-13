@@ -61,7 +61,8 @@ const IncidentFields = (props) => {
       <View style={styles.topContainerEdit}>       
         <StatusDropDown selectedStatus={status} statusChanged={setStatus} />       
         <AssigneeDropDown selectedAssignee={assginee} assigneeChanged={setAssginee} />
-        <StartTimePicker />
+        <DateTimePicker label={"Start Time"} datetime={"Jan 12, 2020 5:30 PM"} />
+        <DateTimePicker label={"Due Date"} datetime={"Dec 31, 2021 5:30 PM"} />
        </View>
     )
   }
@@ -88,6 +89,8 @@ const IncidentFields = (props) => {
                 setOpen={setOpen}
                 setValue={setValue}
                 setItems={setItems}
+                zIndex={7000}
+               // dropDownDirection={'TOP'}
                 onChangeValue={statusChanged}
                 containerStyle={styles.dropdownDropDownStyle}
                 textStyle={styles.textStyle}
@@ -118,6 +121,7 @@ const IncidentFields = (props) => {
                 setOpen={setOpen}
                 setValue={setValue}
                 setItems={setItems}
+                zIndex={4000}
                 onChangeValue={assigneeChanged}
                 containerStyle={styles.dropdownDropDownStyle}
                 textStyle={styles.textStyle}
@@ -126,7 +130,7 @@ const IncidentFields = (props) => {
     )
   }
 
-  const StartTimePicker = ({startTime, startTimeChanged}) =>{
+  const DateTimePicker = ({label , datetime, datetimeChanged}) =>{
 
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
@@ -145,8 +149,12 @@ const IncidentFields = (props) => {
    
     return (
       <View style={styles.dropdownContainer}>
-        <Text style={styles.dropdownLable}>Start Time</Text>
-        <Button title="Show Date Picker" onPress={showDatePicker} />
+        <Text style={styles.dropdownLable}>{label}</Text>
+       
+        <TouchableOpacity onPress={showDatePicker}>
+          <Text style={styles.datetimeBox}>{datetime}</Text>
+        </TouchableOpacity>
+        
         <DateTimePickerModal
           isVisible={isDatePickerVisible}
           mode="datetime"
@@ -209,4 +217,13 @@ const IncidentFields = (props) => {
     color:'#1A237E',
   },
   // end status
+  datetimeBox:{
+    borderWidth:1,
+    borderRadius:7,
+    paddingHorizontal:10,
+    paddingVertical:12,
+    width:230,
+    color:'#1A237E',
+    textAlign:'left'
+  },
 });
