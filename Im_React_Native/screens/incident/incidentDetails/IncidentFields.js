@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity , Dimensions, FlatList } from 
 import { Button, Input, FAB, ButtonGroup  } from 'react-native-elements';
 import { Feather, FontAwesome5, MaterialIcons,    } from '@expo/vector-icons'; 
 import DropDownPicker from 'react-native-dropdown-picker';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 const IncidentFields = (props) => {
   const [editAble, setEditAble] = useState(false);
@@ -60,7 +61,7 @@ const IncidentFields = (props) => {
       <View style={styles.topContainerEdit}>       
         <StatusDropDown selectedStatus={status} statusChanged={setStatus} />       
         <AssigneeDropDown selectedAssignee={assginee} assigneeChanged={setAssginee} />
-         
+        <StartTimePicker />
        </View>
     )
   }
@@ -125,13 +126,44 @@ const IncidentFields = (props) => {
     )
   }
 
+  const StartTimePicker = ({startTime, startTimeChanged}) =>{
+
+    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
+    const showDatePicker = () => {
+      setDatePickerVisibility(true);
+    };
+  
+    const hideDatePicker = () => {
+      setDatePickerVisibility(false);
+    };
+  
+    const handleConfirm = (date) => {
+      console.warn("A date has been picked: ", date);
+      hideDatePicker();
+    };
+   
+    return (
+      <View style={styles.dropdownContainer}>
+        <Text style={styles.dropdownLable}>Start Time</Text>
+        <Button title="Show Date Picker" onPress={showDatePicker} />
+        <DateTimePickerModal
+          isVisible={isDatePickerVisible}
+          mode="datetime"
+          onConfirm={handleConfirm}
+          onCancel={hideDatePicker}
+        />
+       </View>
+    )
+  }
+
   export default IncidentFields;
 
   const styles = StyleSheet.create({
     topContainer:{
       width: Dimensions.get("window").width,  
       flexDirection:'row',
-      justifyContent:'center',      
+      justifyContent:'space-around',      
     },
     fieldContainer:{  
         paddingHorizontal:20,
