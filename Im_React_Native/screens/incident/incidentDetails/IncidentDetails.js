@@ -22,7 +22,7 @@ export default function IncidentDetails(props) {
     
   const renderByTab = () => {
     let tab = selectedTab;
-    console.log(tab,"tab");
+   // console.log(tab,"tab");
     if (tab == 0)
       return (
         <>
@@ -35,8 +35,7 @@ export default function IncidentDetails(props) {
       )
     else if (tab == 1)
       return (<Comments />)
-    if (tab == 2)
-      return (<IncidentFields />)
+  
 
   }
     //console.log(props);

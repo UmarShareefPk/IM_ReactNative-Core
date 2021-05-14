@@ -6,7 +6,7 @@ import AddComment from './AddComment';
 const Comments = () => {
     return (        
         <>
-            {/* <AddComment /> */}
+            <AddComment />
             <ScrollView>
                 <Comment />
                 <Comment />

@@ -180,7 +180,7 @@ const IncidentFields = (props) => {
     },
     field:{
        color:'#1A237E',
-        fontSize:12,       
+        fontSize:14,       
     },
     fieldValue:{
         color:'#848B98',
