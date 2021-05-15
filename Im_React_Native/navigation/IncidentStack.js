@@ -1,8 +1,6 @@
 import { createStackNavigator } from 'react-navigation-stack';
 import React from 'react';
-// import Header from '../shared/header';
-// import Home from '../screens/home';
-
+import Header from '../screens/shared/Header'
 import Incidents from '../screens/incident/Incidents';
 import Incident from '../screens/incident/Incident';
 import IncidentDetails from '../screens/incident/incidentDetails/IncidentDetails';
@@ -18,9 +16,11 @@ const screens = {
   // },
   Incidents : {
     screen : Incidents,
-    navigationOptions :{
-      title : "Incidents",
-    }
+      navigationOptions: ({ navigation }) => {
+      return {
+        headerTitle: () => <Header title='Incidents' navigation={navigation} />
+      }
+    },
   },
   IncidentDetails : {
     screen : IncidentDetails,
