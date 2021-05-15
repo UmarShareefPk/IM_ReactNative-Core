@@ -4,11 +4,13 @@ import { Button, Input, FAB  } from 'react-native-elements';
 import { Feather, FontAwesome5, MaterialIcons,    } from '@expo/vector-icons'; 
 import * as DocumentPicker from 'expo-document-picker';
 import { ScrollView } from 'react-native';
+import AssigneeDropDown from '../shared/AssigneeDropdown';
+import DateTimePicker from "../shared/DateTimePicker";
 
-const AddComment = ({hideModal}) => {
+const AddIncident = ({hideModal}) => {
 
     const [files, setFiles] = useState(null);
-  
+    const [assignee, setAssignee] = useState('2')
     const selectFiles = async () => {    
       try {      
         const res = await DocumentPicker.getDocumentAsync({         
@@ -29,19 +31,27 @@ const AddComment = ({hideModal}) => {
 
         <View style={styles.header}>
           <MaterialIcons name="add-comment" size={40} color="#1A237E" />
-          <Text style={styles.headerText}>Add comment</Text>
+          <Text style={styles.headerText}>Add Incident</Text>
         </View>
+        <Input
+          placeholder="Type title"          
+          inputStyle={{ fontSize: 18 }}
+          leftIcon={<MaterialIcons name="title" size={25} color="#1A237E" />}
+        />
         <Input
           placeholder="Type a comment"
           multiline
-
           inputStyle={{ fontSize: 18 }}
           leftIcon={<MaterialIcons name="comment" size={25} color="#1A237E" />}
         />
 
+        <AssigneeDropDown selectedAssignee={assignee} assigneeChanged={setAssignee} />
+        <DateTimePicker label={"Start Time"} datetime={"Jan 12, 2020 5:30 PM"} />
+        <DateTimePicker label={"Due Date"} datetime={"Dec 31, 2021 5:30 PM"} />
+
         <TouchableOpacity
           style={styles.selectFileBtn}
-        //onPress={selectFiles}
+          onPress={selectFiles}
         >
           <MaterialIcons name="attachment" size={35} color="#1A237E" />
           <Text style={styles.selectFileText} >Select Files</Text>
@@ -67,7 +77,7 @@ const AddComment = ({hideModal}) => {
     );
 }
 
-export default AddComment
+export default AddIncident
 
 const styles = StyleSheet.create({
   scroll:{

@@ -42,11 +42,10 @@ const Comment = () => {
                         <Feather name="edit-2" size={18} color="#1A237E" />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={deleteComment}>
-                        <MaterialIcons name="delete-forever" size={22} color="red" />
+                        <MaterialIcons name="delete-forever" size={25} color="red" />
                     </TouchableOpacity>
                 </View>
             </View>
-
                      
         {editAble ? (
           <View >
@@ -89,8 +88,7 @@ const Comment = () => {
             (<CommentAttachments editAble={editAble} />)
             :
             null
-        }
-        
+        }        
 
         </View>
     )
