@@ -42,12 +42,11 @@ export default DateTimePicker;
 
 
 const styles = StyleSheet.create({ 
-  dropdownContainer:{
-    width: Dimensions.get("window").width,  
+  dropdownContainer:{   
     flexDirection:'row',
     alignItems:'center',
     justifyContent:'space-between',
-    paddingHorizontal:30,
+    //paddingHorizontal:30,
     marginVertical:3    
   },
   dropdownDropDownStyle:{

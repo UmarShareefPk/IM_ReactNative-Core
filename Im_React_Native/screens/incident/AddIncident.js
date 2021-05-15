@@ -26,36 +26,49 @@ const AddIncident = ({hideModal}) => {
     };
 
     return (
-   
+   <ScrollView>
       <View style={styles.container}>
 
         <View style={styles.header}>
           <MaterialIcons name="add-comment" size={40} color="#1A237E" />
           <Text style={styles.headerText}>Add Incident</Text>
         </View>
+        <View style={{paddingHorizontal:10}}>
+
+        
         <Input
           placeholder="Type title"          
           inputStyle={{ fontSize: 18 }}
           leftIcon={<MaterialIcons name="title" size={25} color="#1A237E" />}
         />
         <Input
-          placeholder="Type a comment"
+          placeholder="Type description"
           multiline
           inputStyle={{ fontSize: 18 }}
-          leftIcon={<MaterialIcons name="comment" size={25} color="#1A237E" />}
+          leftIcon={<MaterialIcons name="description" size={25} color="#1A237E" />}
         />
+        <Input
+          placeholder="Type any more details"
+          multiline
+          inputStyle={{ fontSize: 18 }}
+          leftIcon={<MaterialIcons name="details" size={25} color="#1A237E" />}
+        />
+
+          <TouchableOpacity
+            style={styles.selectFileBtn}
+            onPress={selectFiles}
+          >
+            <MaterialIcons name="attachment" size={35} color="#1A237E" />
+            <Text style={styles.selectFileText} >Select Files</Text>
+          </TouchableOpacity>
 
         <AssigneeDropDown selectedAssignee={assignee} assigneeChanged={setAssignee} />
         <DateTimePicker label={"Start Time"} datetime={"Jan 12, 2020 5:30 PM"} />
         <DateTimePicker label={"Due Date"} datetime={"Dec 31, 2021 5:30 PM"} />
+</View>
+       
 
-        <TouchableOpacity
-          style={styles.selectFileBtn}
-          onPress={selectFiles}
-        >
-          <MaterialIcons name="attachment" size={35} color="#1A237E" />
-          <Text style={styles.selectFileText} >Select Files</Text>
-        </TouchableOpacity>
+
 
         <View style={styles.btnsBox}>
           <FAB
@@ -73,7 +86,7 @@ const AddIncident = ({hideModal}) => {
           />
         </View>
       </View>
-      
+      </ScrollView>
     );
 }
 
@@ -87,6 +100,7 @@ const styles = StyleSheet.create({
         flex:1,
         justifyContent:'center',
         width: Dimensions.get("window").width-10, 
+        marginTop:20,
         marginBottom:5,
         paddingHorizontal:10,
         paddingVertical:8,
@@ -114,7 +128,8 @@ const styles = StyleSheet.create({
       borderBottomWidth:1,
       borderColor:'gray',
       borderRadius:10,
-      marginHorizontal:10
+      marginHorizontal:10,
+      marginBottom:5,
     },
     selectFileText:{
       padding:5,

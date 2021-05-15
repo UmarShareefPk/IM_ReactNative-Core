@@ -22,7 +22,7 @@ const IncidentAttachments = (props) => {
         <View style={styles.attchment}>
           {editAble ? (
             <TouchableOpacity style={{ marginRight: 7 }}>
-              <MaterialIcons name="cancel" size={27} color="red" />
+              <MaterialIcons name="delete-forever" size={30} color="red" />
             </TouchableOpacity>
           ) : (
             <TouchableOpacity style={{ marginRight: 10 }}>
@@ -89,6 +89,7 @@ const IncidentAttachments = (props) => {
     },
     attchment:{     
        flexDirection:'row',
+       alignItems:'center',
        marginLeft:30,
        textAlign:'right',     
     }
