@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     marginVertical:3    
   },
   dropdownDropDownStyle:{
-      width:230,      
+      width:220,      
   },
   textStyle:{
     fontSize:15,

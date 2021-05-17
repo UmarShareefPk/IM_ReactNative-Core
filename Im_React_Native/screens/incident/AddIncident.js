@@ -26,66 +26,76 @@ const AddIncident = ({hideModal}) => {
     };
 
     return (
-   <ScrollView>
-      <View style={styles.container}>
+      <ScrollView>
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <MaterialIcons name="add-comment" size={40} color="#1A237E" />
+            <Text style={styles.headerText}>Add Incident</Text>
+          </View>
+          <View style={{ paddingHorizontal: 10 }}>
+            <Input
+              placeholder="Type title"
+              inputStyle={{ fontSize: 18 }}
+              leftIcon={
+                <MaterialIcons name="title" size={25} color="#1A237E" />
+              }
+            />
+            <Input
+              placeholder="Type description"
+              multiline
+              inputStyle={{ fontSize: 18 }}
+              leftIcon={
+                <MaterialIcons name="description" size={25} color="#1A237E" />
+              }
+            />
+            <Input
+              placeholder="Type any more details"
+              multiline
+              inputStyle={{ fontSize: 18 }}
+              leftIcon={
+                <MaterialIcons name="details" size={25} color="#1A237E" />
+              }
+            />
+            <View style={{paddingHorizontal:10}}>
+              <AssigneeDropDown
+                selectedAssignee={assignee}
+                assigneeChanged={setAssignee}
+              />
+              <DateTimePicker
+                label={"Start Time"}
+                datetime={"Jan 12, 2020 5:30 PM"}
+              />
+              <DateTimePicker
+                label={"Due Date"}
+                datetime={"Dec 31, 2021 5:30 PM"}
+              />
+            </View>
 
-        <View style={styles.header}>
-          <MaterialIcons name="add-comment" size={40} color="#1A237E" />
-          <Text style={styles.headerText}>Add Incident</Text>
+            <TouchableOpacity
+              style={styles.selectFileBtn}
+              onPress={selectFiles}
+            >
+              <MaterialIcons name="attachment" size={35} color="#1A237E" />
+              <Text style={styles.selectFileText}>Select Files</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.btnsBox}>
+            <FAB
+              title="Cancel"
+              color="orange"
+              onPress={() => hideModal(false)}
+              icon={<MaterialIcons name="cancel" size={30} color="white" />}
+            />
+            <FAB
+              title="Save"
+              style={{ marginLeft: 10 }}
+              color="green"
+              //onPress={() => update()}
+              icon={<FontAwesome5 name="save" size={30} color="white" />}
+            />
+          </View>
         </View>
-        <View style={{paddingHorizontal:10}}>
-
-        
-        <Input
-          placeholder="Type title"          
-          inputStyle={{ fontSize: 18 }}
-          leftIcon={<MaterialIcons name="title" size={25} color="#1A237E" />}
-        />
-        <Input
-          placeholder="Type description"
-          multiline
-          inputStyle={{ fontSize: 18 }}
-          leftIcon={<MaterialIcons name="description" size={25} color="#1A237E" />}
-        />
-        <Input
-          placeholder="Type any more details"
-          multiline
-          inputStyle={{ fontSize: 18 }}
-          leftIcon={<MaterialIcons name="details" size={25} color="#1A237E" />}
-        />
-
-          <TouchableOpacity
-            style={styles.selectFileBtn}
-            onPress={selectFiles}
-          >
-            <MaterialIcons name="attachment" size={35} color="#1A237E" />
-            <Text style={styles.selectFileText} >Select Files</Text>
-          </TouchableOpacity>
-
-        <AssigneeDropDown selectedAssignee={assignee} assigneeChanged={setAssignee} />
-        <DateTimePicker label={"Start Time"} datetime={"Jan 12, 2020 5:30 PM"} />
-        <DateTimePicker label={"Due Date"} datetime={"Dec 31, 2021 5:30 PM"} />
-</View>
-       
-
-
-
-        <View style={styles.btnsBox}>
-          <FAB
-            title="Cancel"
-            color="orange"
-            onPress={() => hideModal(false)}
-            icon={<MaterialIcons name="cancel" size={30} color="white" />}
-          />
-          <FAB
-            title="Save"
-            style={{ marginLeft: 10 }}
-            color="green"
-            //onPress={() => update()}
-            icon={<FontAwesome5 name="save" size={30} color="white" />}
-          />
-        </View>
-      </View>
       </ScrollView>
     );
 }

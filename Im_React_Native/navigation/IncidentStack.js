@@ -6,14 +6,7 @@ import Incident from '../screens/incident/Incident';
 import IncidentDetails from '../screens/incident/incidentDetails/IncidentDetails';
 
 const screens = {
-  // Home: {
-  //   screen: Home,
-  //   navigationOptions: ({ navigation }) => {
-  //     return {
-  //       headerTitle: () => <Header title='GameZone' navigation={navigation} />
-  //     }
-  //   },
-  // },
+
   Incidents : {
     screen : Incidents,
       navigationOptions: ({ navigation }) => {
@@ -24,8 +17,10 @@ const screens = {
   },
   IncidentDetails : {
     screen : IncidentDetails,
-    navigationOptions :{
-      title : "Details",
+    navigationOptions: ({ navigation }) => {
+      return {
+        headerTitle: () => <Header title='Details' navigation={navigation} />
+      }
     }
   } 
 };

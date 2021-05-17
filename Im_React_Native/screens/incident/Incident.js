@@ -15,7 +15,7 @@ export default function Incident({navigation}) {
               Status: <Text style={styles.fieldValue}>New</Text>
             </Text>
             <Text style={styles.field}>
-              Due Date: <Text style={styles.fieldValue}>In 2 Days</Text>
+              Due Date: <Text style={{...styles.fieldValue, color:'green'}}>In 2 Days</Text>
             </Text>
             <Text style={styles.field}>
               Assigned To: <Text style={styles.fieldValue}>Umar Shareef</Text>
@@ -28,8 +28,7 @@ export default function Incident({navigation}) {
           </Text>
 
           <View style={styles.footer}>
-            <Text style={styles.footerText}>
-              {" "}
+            <Text style={styles.footerText}>              
               Created by {"Ali Raza"} 7 days ago
             </Text>
           </View>
@@ -59,7 +58,7 @@ const styles = StyleSheet.create({
         justifyContent:'space-between'    
     },
     field:{
-        color:'gray',
+      color:'#1A237E',
         fontSize:11
     },
     fieldValue:{

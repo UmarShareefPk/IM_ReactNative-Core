@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     
   },
   dropdownDropDownStyle:{
-      width:230,      
+      width:220,      
   },
   textStyle:{
     fontSize:15,

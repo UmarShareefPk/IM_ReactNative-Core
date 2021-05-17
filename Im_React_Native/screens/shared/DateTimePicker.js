@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     marginVertical:3    
   },
   dropdownDropDownStyle:{
-      width:230,      
+      width:220,      
   },
   textStyle:{
     fontSize:15,
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     borderRadius:7,
     paddingHorizontal:10,
     paddingVertical:12,
-    width:230,
+    width:220,
     color:'#1A237E',
     textAlign:'left'
   },
