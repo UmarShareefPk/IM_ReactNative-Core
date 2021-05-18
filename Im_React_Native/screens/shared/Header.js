@@ -4,6 +4,7 @@ import { View, Text, StyleSheet, Modal } from 'react-native'
 import { Feather, FontAwesome5, MaterialIcons,    } from '@expo/vector-icons'; 
 import { withTheme } from 'react-native-elements';
 import Notifications from '../notification/Notifications';
+import { Tooltip  } from 'react-native-elements';
 
 const Header = ({title, navigation}) => {
     const [notificationsVisibility, setNotificationsVisibility] = useState(false);
@@ -14,6 +15,9 @@ const Header = ({title, navigation}) => {
           <Text style={styles.titleText}>{title}</Text>
         </View>
         <View style={styles.btns}>
+          {/* <Tooltip backgroundColor="#1A237E" popover={<Text style={{color:'white', padding:3,}}>Welcome Umar Shareef!</Text>}>
+           
+          </Tooltip> */}
           <Text style={styles.username}>US</Text>
 
           <TouchableOpacity
@@ -39,7 +43,6 @@ const Header = ({title, navigation}) => {
         >
           <Notifications showModal={setNotificationsVisibility} />
         </Modal>
-        
       </View>
     );
 }

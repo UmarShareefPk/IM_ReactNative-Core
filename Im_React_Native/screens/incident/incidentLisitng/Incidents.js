@@ -4,7 +4,7 @@ import { Button, Input, FAB  } from 'react-native-elements';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons'; 
 
 import Incident from './Incident';
-import AddIncident from './AddIncident';
+import AddIncident from '../AddIncident';
 
 
 export default function Incidents({navigation,screenProps}) {

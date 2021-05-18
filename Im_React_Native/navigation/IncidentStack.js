@@ -1,8 +1,8 @@
 import { createStackNavigator } from 'react-navigation-stack';
 import React from 'react';
 import Header from '../screens/shared/Header'
-import Incidents from '../screens/incident/Incidents';
-import Incident from '../screens/incident/Incident';
+import Incidents from '../screens/incident/incidentLisitng/Incidents';
+
 import IncidentDetails from '../screens/incident/incidentDetails/IncidentDetails';
 
 const screens = {

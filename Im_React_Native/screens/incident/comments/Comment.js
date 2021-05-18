@@ -26,29 +26,25 @@ const Comment = () => {
           );
     }
     return (
-        <View style={styles.container}>
-            <View style={styles.header}>
-                <View style={{flexDirection:'row', alignItems:'center'}}> 
-                    <Text style={styles.user}>
-                        {"Umar Shareef"}
-                    </Text>
-                    <Text style={{fontSize:10, padding:0}}>
-                         added a comment 
-                     </Text>
-                </View>               
-                <Text style={{fontSize:10, color:'blue'}}>3 days ago</Text>
-                <View style={styles.commentBtns}>
-                    <TouchableOpacity onPress={()=> setEditAble(!editAble)}>
-                        <Feather name="edit-2" size={18} color="#1A237E" />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={deleteComment}>
-                        <MaterialIcons name="delete-forever" size={25} color="red" />
-                    </TouchableOpacity>
-                </View>
-            </View>
-                     
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Text style={styles.user}>{"Umar Shareef"}</Text>
+            <Text style={{ fontSize: 10, padding: 0 }}>added a comment</Text>
+          </View>
+          <Text style={{ fontSize: 10, color: "#1A237E" }}>3 days ago</Text>
+          <View style={styles.commentBtns}>
+            <TouchableOpacity onPress={() => setEditAble(!editAble)}>
+              <Feather name="edit-2" size={18} color="#1A237E" />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={deleteComment}>
+              <MaterialIcons name="delete-forever" size={25} color="red" />
+            </TouchableOpacity>
+          </View>
+        </View>
+
         {editAble ? (
-          <View >
+          <View>
             <Input
               placeholder="Enter comment"
               multiline={true}
@@ -74,24 +70,20 @@ const Comment = () => {
           </View>
         ) : (
           <View>
-            <Text  style={styles.commentText}>
-                  {currentValue}
-                </Text>
+            <Text style={styles.commentText}>{currentValue}</Text>
           </View>
         )}
 
-        <TouchableOpacity onPress={()=> setViewAttchments(!viewAttchments)}>
-           <Text style={styles.viewAttachmentsToggleText}> {viewAttchments? "Hide Attachments" : "Show Attachments" }</Text> 
+        <TouchableOpacity onPress={() => setViewAttchments(!viewAttchments)}>
+          <Text style={styles.viewAttachmentsToggleText}>
+            {" "}
+            {viewAttchments ? "Hide Attachments" : "Show Attachments"}
+          </Text>
         </TouchableOpacity>
 
-        {viewAttchments? 
-            (<CommentAttachments editAble={editAble} />)
-            :
-            null
-        }        
-
-        </View>
-    )
+        {viewAttchments ? <CommentAttachments editAble={editAble} /> : null}
+      </View>
+    );
 }
 
 export default Comment
@@ -130,6 +122,7 @@ const styles = StyleSheet.create({
       },
       viewAttachmentsToggleText:{
           color:'blue',
+          fontSize:12,
           paddingHorizontal:10,
           marginTop:5,
           
