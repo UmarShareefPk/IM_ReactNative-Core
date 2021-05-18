@@ -5,6 +5,7 @@ import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 
 import Incident from './Incident';
 import AddIncident from '../AddIncident';
+import Pagination from './Pagination';
 
 
 export default function Incidents({navigation,screenProps}) {
@@ -33,30 +34,20 @@ export default function Incidents({navigation,screenProps}) {
           placeholder="Search by title or description"
           leftIcon={<FontAwesome name="search" size={24} color="#1A237E" />}
         />
-        <View style={styles.btnContainer}>
-            <TouchableOpacity style={styles.buttonBox} onPress={()=>screenProps.login(false)} >
-            <MaterialIcons name="navigate-before" size={24} color="green" />
-                <Text style={styles.button}> Prevous 5 </Text>
-               
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.buttonBox} >
-                <Text style={styles.button}> Next 5 </Text>
-                <MaterialIcons name="navigate-next" size={24} color="green" />
-            </TouchableOpacity>
+        {/*    <TouchableOpacity style={styles.buttonBox} onPress={()=>screenProps.login(false)} >
+                   </TouchableOpacity>           
+        </View> */}
+        <View style={{}}>
+          <Pagination TotalRecords= {50} PostsPerPage={10} />
         </View>
 
-        <ScrollView>
+        <ScrollView style={{marginTop:20}} >
           <Incident navigation={navigation} />
           <Incident navigation={navigation} />
           <Incident navigation={navigation} />
           <Incident navigation={navigation} />
           <Incident navigation={navigation} />
         </ScrollView>
-        {/* <Button
-          title="Go to Details"
-          onPress={() => navigation.navigate("IncidentDetails", { Id: 123 })}
-        /> */}
       </View>
     );
 }

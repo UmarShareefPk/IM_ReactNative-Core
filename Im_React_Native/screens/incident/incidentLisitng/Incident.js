@@ -44,7 +44,8 @@ const styles = StyleSheet.create({
         padding:10,
         borderStyle: 'dotted',
         borderRadius: 10,
-        borderWidth:0.5
+        borderWidth:0.5,
+       
     },
     titleArea:{
     },
