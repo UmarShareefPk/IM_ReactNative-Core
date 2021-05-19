@@ -5,8 +5,10 @@ import { Feather, FontAwesome5, MaterialIcons,    } from '@expo/vector-icons';
 import { withTheme } from 'react-native-elements';
 import Notifications from '../notification/Notifications';
 import { Tooltip  } from 'react-native-elements';
+import { signOut } from "../../store/actions/userLoginActions";
+import { connect } from 'react-redux'
 
-const Header = ({title, navigation}) => {
+const Header = ({title, signOut, user_Name}) => {
     const [notificationsVisibility, setNotificationsVisibility] = useState(false);
 
     return (
@@ -18,7 +20,9 @@ const Header = ({title, navigation}) => {
           {/* <Tooltip backgroundColor="#1A237E" popover={<Text style={{color:'white', padding:3,}}>Welcome Umar Shareef!</Text>}>
            
           </Tooltip> */}
-          <Text style={styles.username}>US</Text>
+          <Text style={styles.username}>
+            {user_Name.split(' ').reduce((initials,value)=> initials+=value.slice(0,1) , "")}
+          </Text>
 
           <TouchableOpacity
             style={styles.btn}
@@ -28,7 +32,7 @@ const Header = ({title, navigation}) => {
             <Text style={styles.notificationText}>5 new</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => signOut()}>
             <MaterialIcons name="logout" size={24} color="white" />
           </TouchableOpacity>
         </View>
@@ -47,48 +51,66 @@ const Header = ({title, navigation}) => {
     );
 }
 
-const styles = StyleSheet.create({
-    container:{
-        flexDirection:'row',
-        justifyContent:'space-between',
-        alignItems:'center',
-    },
-    title:{
-       // marginLeft:70,
-    },
-    titleText:{
-       color:'white',
-       fontSize:20,
-       fontWeight:'bold',
-       
-    },
-    btns:{
-        flexDirection:'row',
-        flex:0.6,
-        justifyContent:'space-between',
-        alignItems:'center'
-    },
-    btn:{
-        flexDirection:'row',
-        alignItems:'center'
-    },
-    notificationText:{
-        color:'white',
-        fontSize:10,
-        backgroundColor:'#d90166',
-        borderWidth:1,
-        borderColor:'#d90166',
-        borderRadius:5,
-        paddingVertical:3,
-        paddingHorizontal:4,
-    },
-    username:{
-        color:'white',
-        backgroundColor:'#c65102',
-        paddingHorizontal:8,
-        paddingVertical:5,
-        borderRadius:15
-    },
-});
+const mapStateToProps = (state) => {
+  return{
+      user_Name :state.userLogin.user_Name,
+      userId :state.userLogin.userId,
+      userLogin : state.userLogin.userLogin,
+      loginError : state.userLogin.loginError,
+      token : state.userLogin.token  
+  }
+}
 
-export default Header
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signOut: () => dispatch(signOut())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
+
+
+
+const styles = StyleSheet.create({
+  container:{
+      flexDirection:'row',
+      justifyContent:'space-between',
+      alignItems:'center',
+  },
+  title:{
+     // marginLeft:70,
+  },
+  titleText:{
+     color:'white',
+     fontSize:20,
+     fontWeight:'bold',
+     
+  },
+  btns:{
+      flexDirection:'row',
+      flex:0.6,
+      justifyContent:'space-between',
+      alignItems:'center'
+  },
+  btn:{
+      flexDirection:'row',
+      alignItems:'center'
+  },
+  notificationText:{
+      color:'white',
+      fontSize:10,
+      backgroundColor:'#d90166',
+      borderWidth:1,
+      borderColor:'#d90166',
+      borderRadius:5,
+      paddingVertical:3,
+      paddingHorizontal:4,
+  },
+  username:{
+      color:'white',
+      backgroundColor:'#c65102',
+      paddingHorizontal:8,
+      paddingVertical:5,
+      borderRadius:15
+  },
+});

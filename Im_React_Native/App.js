@@ -1,25 +1,24 @@
-import { StatusBar } from 'expo-status-bar';
-import React, {useState} from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import Login from './screens/Login';
-import Navigator from './navigation/drawer';
-import { DrawerActions } from 'react-navigation-drawer';
+import React from 'react';
+import { createStore, applyMiddleware, compose } from 'redux'
+import rootReducer from './store/reducers/rootReducer'
+import { Provider } from 'react-redux'
+import thunk from 'redux-thunk';
+import MyApp from "./MyApp"
+
 
 export default function App() {
-  const [loginStatus, setLoginStatus] = useState(false);
+  const store = createStore(rootReducer,
+    compose(
+      applyMiddleware(thunk)   
+    )
+  );
 
-  if (loginStatus)
-    return <Navigator screenProps={{ login: setLoginStatus }}></Navigator>;
-  else {
-    return <Login setLoginStatus={setLoginStatus} />;
-  }
+  return (
+    <Provider store={store}>
+      <MyApp />
+    </Provider>
+  );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-  },
-});
+
+ 
