@@ -17,9 +17,18 @@ const IncidentFields = ({incidentData, updateIncident, userId, getUserNameById, 
       <>
         <View>
           {editAble ? (
-            <EditAbleFields incident={incidentData} getUserNameById={getUserNameById} />
+            <EditAbleFields
+              incident={incidentData}
+              getUserNameById={getUserNameById}
+              updateIncident={updateIncident}
+              userId={userId}
+            />
           ) : (
-            <StaticFields incident={incidentData} getUserNameById={getUserNameById} statusName={statusName}  />
+            <StaticFields
+              incident={incidentData}
+              getUserNameById={getUserNameById}
+              statusName={statusName}
+            />
           )}
         </View>
         <View style={styles.editBtnContainer}>
@@ -58,10 +67,10 @@ const IncidentFields = ({incidentData, updateIncident, userId, getUserNameById, 
                   style={{
                     ...styles.fieldValue,
                     color: dueDateColor,
-                    fontSize: 10,
+                    fontSize: 11,
                   }}
                 >
-                  {moment(incident.DueDate).format("MMMM DD YYYY, h:mm:ss a")}
+                  {moment(incident.DueDate).format("MMMM DD YYYY, h:mm a")}
                 </Text>
               ) : (
                 <Text style={{ ...styles.fieldValue, color: dueDateColor }}>
@@ -86,9 +95,9 @@ const IncidentFields = ({incidentData, updateIncident, userId, getUserNameById, 
             <TouchableOpacity onPress={() => setStartDateFull(!startDateFull)}>
               {startDateFull ? (
                 <Text
-                  style={{ ...styles.fieldValue, fontSize: 10, color: "blue" }}
+                  style={{ ...styles.fieldValue, fontSize: 11, color: "blue" }}
                 >
-                  {moment(incident.StartTime).format("MMMM DD YYYY, h:mm:ss a")}
+                  {moment(incident.StartTime).format("MMMM DD YYYY, h:mm a")}
                 </Text>
               ) : (
                 <Text style={{ ...styles.fieldValue }}>
@@ -102,17 +111,49 @@ const IncidentFields = ({incidentData, updateIncident, userId, getUserNameById, 
     );
   }
 
-  const EditAbleFields = ({incident, getUserNameById}) =>{
+  const EditAbleFields = ({incident, getUserNameById, updateIncident, userId}) =>{
     const [status, setStatus] = useState('I');
     const [assginee, setAssginee] = useState('1');  
+
+    const updateIncidentByField = (field , value) => {    
+      let parameters = {
+        IncidentId : incident.Id,
+        Parameter : field,
+        Value : value,
+        UserId : userId
+      };
+      updateIncident(parameters); // Calling action here
+    }
+
+    
+    const startTimeChanged = (newdate) => {
+      console.log("New Start Date", newdate);
+      updateIncidentByField("StartTime", newdate);
+    };
+
+    const dueDateChanged = (newdate) => {
+      console.log("New Due Date", newdate);
+      updateIncidentByField("DueDate", newdate);
+    };
     return (
-      <View style={styles.topContainerEdit}>   
-        <StatusDropDown selectedStatus={status} statusChanged={setStatus} />     
-        <AssigneeDropDown selectedAssignee={assginee} assigneeChanged={setAssginee} />
-        <DateTimePicker label={"Start Time"} datetime={"Jan 12, 2020 5:30 PM"} />
-        <DateTimePicker label={"Due Date"} datetime={"Dec 31, 2021 5:30 PM"} />
-       </View>
-    )
+      <View style={styles.topContainerEdit}>
+        <StatusDropDown selectedStatus={status} statusChanged={setStatus} />
+        <AssigneeDropDown
+          selectedAssignee={assginee}
+          assigneeChanged={setAssginee}
+        />
+        <DateTimePicker
+          label={"Start Time"}
+          datetime={incident.StartTime}
+          datetimeChanged={startTimeChanged}
+        />
+        <DateTimePicker
+          label={"Due Date"}
+          datetime={incident.DueDate}
+          datetimeChanged={dueDateChanged}
+        />
+      </View>
+    );
   }
 
 

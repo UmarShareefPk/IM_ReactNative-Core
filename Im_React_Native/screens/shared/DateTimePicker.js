@@ -1,11 +1,12 @@
 import React,{useState} from 'react'
 import { View, Text, StyleSheet, TouchableOpacity , Dimensions, FlatList } from 'react-native';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-
+import moment from "moment";
 
 const DateTimePicker = ({label , datetime, datetimeChanged}) =>{
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [date, setDate] = useState(datetime)
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -16,8 +17,10 @@ const DateTimePicker = ({label , datetime, datetimeChanged}) =>{
   };
 
   const handleConfirm = (date) => {
-    console.warn("A date has been picked: ", date);
+    setDate(date);
+    datetimeChanged(date);
     hideDatePicker();
+
   };
  
   return (
@@ -25,7 +28,7 @@ const DateTimePicker = ({label , datetime, datetimeChanged}) =>{
       <Text style={styles.dropdownLable}>{label}</Text>
      
       <TouchableOpacity onPress={showDatePicker}>
-        <Text style={styles.datetimeBox}>{datetime}</Text>
+        <Text style={styles.datetimeBox}>{moment(date).format("MMMM DD YYYY, h:mm a")}</Text>
       </TouchableOpacity>
       
       <DateTimePickerModal

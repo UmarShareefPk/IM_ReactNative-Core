@@ -14,7 +14,7 @@ const Comment = ({comment, updateIncident, userId}) => {
     const [currentValue, setCurrentValue] = useState(comment.CommentText);
     const [newValue, setNewValue] = useState("");
 
-    const deleteComment = () => {
+    const deleteCommentConfirmation = () => {
         Alert.alert(
             "Delete Comment",
             "Are you sure you want to delete this comment?",
@@ -28,6 +28,9 @@ const Comment = ({comment, updateIncident, userId}) => {
             ]
           );
     }
+
+    
+
 
     const getUserNameById = (id) => {   
       let user = allAssignees.find((assignee) => {
@@ -52,7 +55,7 @@ const Comment = ({comment, updateIncident, userId}) => {
             <TouchableOpacity onPress={() => setEditAble(!editAble)}>
               <Feather name="edit-2" size={18} color="#1A237E" />
             </TouchableOpacity>
-            <TouchableOpacity onPress={deleteComment}>
+            <TouchableOpacity onPress={deleteCommentConfirmation}>
               <MaterialIcons name="delete-forever" size={25} color="red" />
             </TouchableOpacity>
           </View>

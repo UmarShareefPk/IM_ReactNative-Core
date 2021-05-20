@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-import { View, Text, StyleSheet, TouchableOpacity , Dimensions, FlatList } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity , Dimensions, FlatList, Alert } from 'react-native';
 import { Button, Input, FAB, ButtonGroup  } from 'react-native-elements';
 import { Feather, FontAwesome5, MaterialIcons,    } from '@expo/vector-icons'; 
 import { connect } from "react-redux";
@@ -13,24 +13,40 @@ const IncidentAttachments = ( {
 }) => {
     const [editAble, setEditAble] = useState(false);
     const [files, setFiles] = useState(incidentData.Attachments)
-      
-      const renderFiles = ({ item }) => {
-        return (
-          <View style={styles.attchment}>
-            {editAble ? (
-              <TouchableOpacity style={{ marginRight: 7 }}>
-                <MaterialIcons name="delete-forever" size={30} color="red" />
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity style={{ marginRight: 10 }}>
-                <MaterialIcons name="file-download" size={27} color="blue" />
-              </TouchableOpacity>
-            )}
-
-            <Text>{item.FileName}</Text>
-          </View>
+    
+    const deleteFiletConfirmation = () => {
+      Alert.alert(
+          "Delete Attachment",
+          "Are you sure you want to delete this file?",
+          [
+            {
+              text: "Cancel",
+              onPress: () => console.log("Cancel Pressed"),
+              style: "cancel"
+            },
+            { text: "Yes. Delete", onPress: () => console.log("OK Pressed") }
+          ]
         );
-      };
+  }
+
+    const renderFiles = ({ item }) => {      
+      return (
+        <>
+          {editAble ? (            
+              <TouchableOpacity  onPress={()=>deleteFiletConfirmation()} style={{...styles.attchment, marginRight: 7 }}>
+                <MaterialIcons name="delete-forever" size={30} color="red" />
+                <Text>{item.FileName}</Text>
+              </TouchableOpacity>
+         
+          ) : (            
+              <TouchableOpacity style={{...styles.attchment, marginRight: 10 }}>
+                <MaterialIcons name="file-download" size={27} color="blue" />
+                <Text>{item.FileName}</Text>
+              </TouchableOpacity>            
+          )}
+        </>
+      );
+    };
   
     return (
       <View style={styles.attchments}>

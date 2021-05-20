@@ -14,6 +14,7 @@ import moment from "moment";;
    getUserNameById,
  }) => {
    const [editAble, setEditAble] = useState(false);
+   const [createdDateToggle, setCreatedDateToggle] = useState(false);
 
    return (
      <View>
@@ -40,14 +41,27 @@ import moment from "moment";;
            <View style={styles.titleArea}>
              <Text style={styles.title}>{incidentData.Title}</Text>
              <View style={styles.titleEdit}>
-               <Text style={styles.timestamp}>
-                 Created by{" "}
-                 <Text style={{ fontWeight: "bold" }}>
-                   {getUserNameById(incidentData.CreatedBy)}
+               <View style={styles.timestamp}>
+                 <Text style={styles.timestampText}>
+                   {" "}
+                   Created by{"  "}
+                   <Text style={{ fontWeight: "bold" }}>
+                     {getUserNameById(incidentData.CreatedBy)}
+                   </Text>
                  </Text>
-                 {"   "}
-                 {moment(incidentData.CreatedAT).fromNow()}
-               </Text>
+                 <TouchableOpacity
+                   onPress={() => setCreatedDateToggle(!createdDateToggle)}
+                 >
+                   <Text style={{...styles.timestampText, color:'indigo'}}>
+                   {"  "}
+                     {createdDateToggle
+                       ? moment(incidentData.CreatedAT).format(
+                           "MMMM DD YYYY, h:mm a"
+                         )
+                       : moment(incidentData.CreatedAT).fromNow()}
+                   </Text>
+                 </TouchableOpacity>
+               </View>
                <Button
                  onPress={() => setEditAble(!editAble)}
                  title=""
@@ -97,10 +111,13 @@ import moment from "moment";;
     },
     timestamp :{
       marginTop:5,
-        textAlign:'right',
-        fontSize:11,
-        color:'#848B98',
+      flexDirection:'row',
+      alignItems:'center',            
     }, 
+    timestampText:{
+      fontSize:11,
+      color:'#848B98',
+    },
     editBtn:{
       color:'red',    
       backgroundColor:'white',     
