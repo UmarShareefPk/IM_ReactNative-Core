@@ -2,10 +2,23 @@ import React,{useState} from 'react'
 import { View, Text, StyleSheet, TouchableOpacity , Dimensions } from 'react-native';
 import { Input, FAB, Button  } from 'react-native-elements';
 import { Feather, FontAwesome5, MaterialIcons,    } from '@expo/vector-icons'; 
+import { updateIncident } from "../../../store/actions/incidentsActions";
+import { connect } from "react-redux";
+import moment from "moment";;
 
-
- const IncidentTitle = (props) => {
+ const IncidentTitle = ({incidentData, updateIncident, allAssignees}) => {
     const [editAble, setEditAble] = useState(false);
+
+    const getUserNameById = (id) => {   
+      let user = allAssignees.find((assignee) => {
+        return assignee.Id === id;
+      });   
+      if(!user){    
+        return id;
+      }
+      return user.FirstName + " " + user.LastName
+    }
+
     return (
       <View>
         {editAble ? (
@@ -29,13 +42,15 @@ import { Feather, FontAwesome5, MaterialIcons,    } from '@expo/vector-icons';
         ) : (
           <>
             <View style={styles.titleArea}>
-              <Text style={styles.title}>
-                Title will go here in case of long tile there will be space
-                available below                
-              </Text>
+              <Text style={styles.title}>{incidentData.Title}</Text>
               <View style={styles.titleEdit}>
                 <Text style={styles.timestamp}>
-                  Created by {"Ali Raza"} 7 days ago 1
+                  Created by{" "}
+                  <Text style={{ fontWeight: "bold" }}>                   
+                    {getUserNameById(incidentData.CreatedBy)}
+                  </Text>
+                  {"   "}
+                  {moment(incidentData.CreatedAT).fromNow()}
                 </Text>
                 <Button
                   onPress={() => setEditAble(!editAble)}
@@ -52,16 +67,27 @@ import { Feather, FontAwesome5, MaterialIcons,    } from '@expo/vector-icons';
     );
   }
 
-  export default IncidentTitle;
+  const mapStateToProps = (state) => {
+    return {     
+      allAssignees: state.users.users,
+      incidentData: state.incidents.IncidentSelected,   
+    };
+  };
+  
+  const mapDispatchToProps = (dispatch) => {
+    return {     
+      updateIncident: (parameters) => dispatch(updateIncident(parameters)),  
+    };
+  };
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(IncidentTitle);
+  
 
   const styles = StyleSheet.create({ 
     titleArea:{
       width: Dimensions.get('window').width , 
         alignSelf:'stretch',
-        padding:15,
-       // flexDirection:'row',
-       // marginHorizontal:10
-       // borderBottomWidth:0.5
+        padding:15,     
     },
     title :{
         textAlign:'left',
@@ -79,12 +105,9 @@ import { Feather, FontAwesome5, MaterialIcons,    } from '@expo/vector-icons';
         color:'#848B98',
     }, 
     editBtn:{
-      color:'red',
-     // backgroundColor:'#1A237E',
-      backgroundColor:'white',
-     // width:50,
-      textAlign:'right'
-     // marginTop:5
+      color:'red',    
+      backgroundColor:'white',     
+      textAlign:'right'     
   },
     editbtnsBox: {
       flexDirection: "row",

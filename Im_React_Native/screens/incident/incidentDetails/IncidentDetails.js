@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState, useEffect} from 'react'
 import { View, Text, StyleSheet, TouchableOpacity , Dimensions, FlatList } from 'react-native';
 import { Button, Input, FAB, ButtonGroup  } from 'react-native-elements';
 import { Feather, FontAwesome5, MaterialIcons,    } from '@expo/vector-icons'; 
@@ -7,11 +7,34 @@ import IncidentTitle from './IncidentTitle';
 import IncidentFields from './IncidentFields';
 import IncidentDescription from './IncidentDescription';
 import IncidentAttachments from './IncidentAttachments';
-import Comments from '../comments/Comments'
+import Comments from '../comments/Comments';
+import { connect } from "react-redux";
+import { allUsers } from "../../../store/actions/usersActions";
+import { getIncidentById, updateIncident, deleteAttachment } from "../../../store/actions/incidentsActions";
 
-export default function IncidentDetails(props) {
-    //const width1 = Dimensions.get('window').width; //full width
-    const id = props.navigation.getParam('Id');
+
+function IncidentDetails(    { 
+  navigation,     
+  incidentData,
+  getIncidentById,
+  allAssignees,
+  getAllAssignees,
+  userId,
+  updateIncident,
+  deleteAttachment,
+  IncidentDetailError      
+}
+) {
+    
+  
+    useEffect(() => {    
+      getIncidentById(navigation.getParam('Id'));   
+    }, [navigation.getParam('Id')]); // whenever Id changes get new
+
+    useEffect(() => {
+      console.log("incidentData", incidentData)
+    }, [incidentData]);
+  
 
     const tabs = ['Details',  'Comments'];
     const [selectedTab, setSelectedTab] = useState(0);
@@ -21,8 +44,7 @@ export default function IncidentDetails(props) {
     }
     
   const renderByTab = () => {
-    let tab = selectedTab;
-   // console.log(tab,"tab");
+    let tab = selectedTab;   
     if (tab == 0)
       return (
         <>
@@ -34,10 +56,9 @@ export default function IncidentDetails(props) {
         </>
       )
     else if (tab == 1)
-      return (<Comments />)
-  
-
+      return (<Comments />) 
   }
+
     //console.log(props);
     return (
       <View style={styles.container}>
@@ -61,6 +82,27 @@ export default function IncidentDetails(props) {
       </View>
     );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    allAssignees: state.users.users,
+    incidentData: state.incidents.IncidentSelected,
+    userId :state.userLogin.userId,  // logged in User Id  
+    IncidentDetailError : state.incidents.IncidentDetailError     // if api ERROR
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getAllAssignees: () => dispatch(allUsers()),
+    getIncidentById: (incidentId) => dispatch(getIncidentById(incidentId)), 
+    updateIncident: (parameters) => dispatch(updateIncident(parameters)),   
+    deleteAttachment : (type, userid, incidentId , file) => dispatch(deleteAttachment(type, userid, incidentId ,file))    
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(IncidentDetails);
+
 
 const styles = StyleSheet.create({
     container :{

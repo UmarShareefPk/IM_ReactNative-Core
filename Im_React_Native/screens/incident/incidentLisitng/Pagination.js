@@ -4,10 +4,10 @@ import PageSizeDropDown from './PageSizeDropDown';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons'; 
 
 
-const Pagination = ({TotalRecords, PostsPerPage }) => {
+const Pagination = ({TotalRecords, search, paginationChanged }) => {
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [currentSize, setCurrentSize] = useState(PostsPerPage);
+    const [currentSize, setCurrentSize] = useState(5);
 
     let pagesBeforeExists = false;
     let pagesAfterExists = false;
@@ -25,20 +25,20 @@ const Pagination = ({TotalRecords, PostsPerPage }) => {
 
     const pageNumberClick = (p) =>{        
         setCurrentPage(p);
+        paginationChanged(p,currentSize);
     }
 
     const pageSizeChanged = (pSize) => {
-      console.log(pSize);
-      //  setPageSize(pSize);
+           
         setCurrentSize(pSize);
         setCurrentPage(1);
-      //  setPageNumber(1);
+        paginationChanged(1,pSize);
     }
 
     useEffect(() => {
         setCurrentPage(1);
        // setPageNumber(1); 
-    }, [])
+    }, [search])
 
     pages = pages.map((p,index)=>{
         let pageStyle = currentPage === p ? {...styles.page,  backgroundColor:'#1A237E',   color:'white',} : styles.page;        
@@ -59,13 +59,13 @@ const Pagination = ({TotalRecords, PostsPerPage }) => {
 
         <View style={styles.pagesContainer}>
           <Text>Screens</Text>
-          <TouchableOpacity onPress={() => setCurrentPage(1)}>
+          <TouchableOpacity onPress={() => pageNumberClick(1)}>
             <MaterialIcons name="navigate-before" size={40} color="#1A237E" />
           </TouchableOpacity>
           {pagesBeforeExists ? <Text>...</Text> : null}
           {pages}
           {pagesAfterExists ? <Text>...</Text> : null}
-          <TouchableOpacity onPress={() => setCurrentPage(totalPages)}>
+          <TouchableOpacity onPress={() => pageNumberClick(totalPages)}>
             <MaterialIcons name="navigate-next" size={40} color="#1A237E" />
           </TouchableOpacity>
         </View>
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
      container:{
       width: Dimensions.get("window").width-10, 
        flexDirection:'row',
-       justifyContent:'flex-end',
+       justifyContent:'center',
   
       //alignItems:'center'
      },
@@ -124,10 +124,10 @@ const styles = StyleSheet.create({
      information:{
       width: Dimensions.get("window").width-20, 
       flexDirection:'row',
-       justifyContent:'flex-end',      
+       justifyContent:'center',      
      },
      informationText:{    
-      color:'green',
+      color:'gray',
       fontSize:12,
     
      },

@@ -21,8 +21,7 @@ import { logIn } from '../store/actions/userLoginActions';
   }
 
     return (
-      <View style={styles.container}>
-        <Text style={{fontSize:30, color:'red'}}>{username +  " lalalal" + password}</Text>
+      <View style={styles.container}>        
         <Text style={styles.welcomeText}>Welcome! {props.user_Name}</Text>
         <Text style={styles.loginText}>Please Login.</Text>
         <View style={styles.loginContainer}>

@@ -1,5 +1,9 @@
 //const baseUrl = "https://localhost:44310/";
-const baseUrl = "http://10.0.2.2:52578/";
+//const baseUrl = "https://192.168.100.173:44310/";
+//const baseUrl = "http://10.0.2.2:52578/"; // for AVD
+//const baseUrl = "http://127.0.0.1:52578/";
+const baseUrl = "http://192.168.100.173:52578/"; // for real device and avd
+//const baseUrl = "http://localhost:52578/";
 
 export const usersUrls = {
     tokenUrl : baseUrl + "token",
