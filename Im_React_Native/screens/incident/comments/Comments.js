@@ -2,9 +2,11 @@ import React, {useState} from 'react';
 import { View, Text, ScrollView, Modal, StyleSheet,TouchableOpacity, Dimensions } from 'react-native';
 import Comment from './Comment';
 import AddComment from './AddComment';
-import { Feather, FontAwesome5, MaterialIcons,    } from '@expo/vector-icons'; 
+import { Feather, FontAwesome5, MaterialIcons, } from '@expo/vector-icons'; 
+import { connect } from "react-redux";
 
-const Comments = () => {
+
+const Comments = ({incidentData}) => {
 const [addCommentModelVisibility, setAddCommentModelVisibility] = useState(false);
     return (        
         <>
@@ -26,16 +28,25 @@ const [addCommentModelVisibility, setAddCommentModelVisibility] = useState(false
             </Modal>
            
             <ScrollView>
-                <Comment />
-                <Comment />
-                <Comment />
-                <Comment />
+            {
+                incidentData.Comments.map((comment => {
+                   return <Comment key={comment.Id} comment={comment} />
+                }))
+            }
+             
             </ScrollView>
         </>
     )
 }
 
-export default Comments
+const mapStateToProps = (state) => {
+    return {     
+      incidentData: state.incidents.IncidentSelected,   
+    };
+  }; 
+  
+export default connect(mapStateToProps, null)(Comments);
+
 
 const styles = StyleSheet.create({
    

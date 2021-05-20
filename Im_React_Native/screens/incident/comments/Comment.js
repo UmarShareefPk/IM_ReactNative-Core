@@ -4,11 +4,14 @@ import { Button, Input, FAB, ButtonGroup  } from 'react-native-elements';
 import { Feather, FontAwesome5, MaterialIcons,    } from '@expo/vector-icons'; 
 import { TouchableOpacity } from 'react-native';
 import CommentAttachments from './CommentAttachments';
+import { connect } from "react-redux";
+import { updateIncident } from "../../../store/actions/incidentsActions";
 
-const Comment = () => {
+
+const Comment = ({comment, updateIncident, userId}) => {
     const [editAble, setEditAble] = useState(false);
     const [viewAttchments, setViewAttchments] = useState(false);
-    const [currentValue, setCurrentValue] = useState(` "The general population doesn't know what's happening, and it doesn't even know that it doesn't know." ~ Noam Chomsky`);
+    const [currentValue, setCurrentValue] = useState(comment.CommentText);
     const [newValue, setNewValue] = useState("");
 
     const deleteComment = () => {
@@ -25,6 +28,18 @@ const Comment = () => {
             ]
           );
     }
+
+    const getUserNameById = (id) => {   
+      let user = allAssignees.find((assignee) => {
+        return assignee.Id === id;
+      });   
+      if(!user){    
+        return id; 
+      }
+      return user.FirstName + " " + user.LastName
+    }
+
+
     return (
       <View style={styles.container}>
         <View style={styles.header}>
@@ -73,20 +88,35 @@ const Comment = () => {
             <Text style={styles.commentText}>{currentValue}</Text>
           </View>
         )}
-
-        <TouchableOpacity onPress={() => setViewAttchments(!viewAttchments)}>
+        {comment.attachments.length == 0? null : (
+          <TouchableOpacity onPress={() => setViewAttchments(!viewAttchments)}>
           <Text style={styles.viewAttachmentsToggleText}>
             {" "}
             {viewAttchments ? "Hide Attachments" : "Show Attachments"}
           </Text>
         </TouchableOpacity>
+        )}
+        
 
-        {viewAttchments ? <CommentAttachments editAble={editAble} /> : null}
+        {viewAttchments ? <CommentAttachments editAble={editAble} attachments={ comment.attachments} /> : null}
       </View>
     );
 }
 
-export default Comment
+const mapStateToProps = (state) => {
+  return {    
+    userId :state.userLogin.userId,  // logged in User Id    
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {  
+    updateIncident: (parameters) => dispatch(updateIncident(parameters)),  
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Comment);
+
 
 const styles = StyleSheet.create({
     container: {

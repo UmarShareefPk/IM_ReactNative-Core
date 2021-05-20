@@ -1,7 +1,6 @@
-import React,{useState} from 'react'
-import { TouchableOpacity } from 'react-native'
-import { View, Text, StyleSheet, Modal } from 'react-native'
-import { Feather, FontAwesome5, MaterialIcons,    } from '@expo/vector-icons'; 
+import React,{useState} from 'react';
+import { View, Text, StyleSheet, Modal, TouchableOpacity } from 'react-native'
+import { Feather, FontAwesome5, MaterialIcons,  } from '@expo/vector-icons'; 
 import { withTheme } from 'react-native-elements';
 import Notifications from '../notification/Notifications';
 import { Tooltip  } from 'react-native-elements';

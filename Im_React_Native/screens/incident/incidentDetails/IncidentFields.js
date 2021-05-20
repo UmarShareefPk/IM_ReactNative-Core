@@ -1,20 +1,26 @@
-import React,{useState} from 'react'
+import React,{useState, useRef} from 'react'
 import { View, Text, StyleSheet, TouchableOpacity , Dimensions, FlatList } from 'react-native';
-import { Button, Input, FAB, ButtonGroup  } from 'react-native-elements';
+import { Button, Input, FAB, ButtonGroup, Tooltip  } from 'react-native-elements';
 import { Feather, FontAwesome5, MaterialIcons,    } from '@expo/vector-icons'; 
-import DropDownPicker from 'react-native-dropdown-picker';
-
 import AssigneeDropDown from '../../shared/AssigneeDropdown';
 import DateTimePicker from "../../shared/DateTimePicker";
 import StatusDropDown from "../../shared/StatusDropDown";
+import { updateIncident } from "../../../store/actions/incidentsActions";
+import { connect } from "react-redux";
+import moment from "moment";
 
-const IncidentFields = (props) => {
+
+const IncidentFields = ({incidentData, updateIncident, userId, getUserNameById, statusName}) => {
   const [editAble, setEditAble] = useState(false);
- 
+   
     return (
       <>
         <View>
-          {editAble ? <EditAbleFields /> : <StaticFields />}
+          {editAble ? (
+            <EditAbleFields incident={incidentData} getUserNameById={getUserNameById} />
+          ) : (
+            <StaticFields incident={incidentData} getUserNameById={getUserNameById} statusName={statusName}  />
+          )}
         </View>
         <View style={styles.editBtnContainer}>
           <Button
@@ -26,36 +32,77 @@ const IncidentFields = (props) => {
           />
         </View>
       </>
-
     );
   }
 
-  const StaticFields = () =>{
+  const StaticFields = ({incident, getUserNameById, statusName}) =>{
+    let currentDate = new Date();
+    const [dueDateFull, setDueDateFull] = useState(false);
+    const [startDateFull, setStartDateFull] = useState(false);
+
+    const dueDateColor =
+      new Date(incident.DueDate) < currentDate ? "red" : "green";
+     
     return (
       <View style={styles.topContainer}>
-      <View style={styles.fieldContainer}>
-        <Text style={styles.field}>
-          Status: <Text style={styles.fieldValue}>New</Text>
-        </Text>
-        <Text style={styles.field}>
-          Due Date: <Text style={styles.fieldValue}>In 2 Days</Text>
-        </Text>
-      </View>
+        <View style={styles.fieldContainer}>
+          <Text style={styles.field}>
+            Status:{" "}
+            <Text style={styles.fieldValue}>{statusName(incident.Status)}</Text>
+          </Text>
+          <View style={styles.dateField}>
+            <Text style={styles.field}>Due Date: </Text>
+            <TouchableOpacity onPress={() => setDueDateFull(!dueDateFull)}>
+              {dueDateFull ? (
+                <Text
+                  style={{
+                    ...styles.fieldValue,
+                    color: dueDateColor,
+                    fontSize: 10,
+                  }}
+                >
+                  {moment(incident.DueDate).format("MMMM DD YYYY, h:mm:ss a")}
+                </Text>
+              ) : (
+                <Text style={{ ...styles.fieldValue, color: dueDateColor }}>
+                  {moment(incident.DueDate).fromNow()}
+                </Text>
+              )}
+            </TouchableOpacity>
+          </View>
+        </View>
 
-      <View style={styles.fieldContainer}>
-        <Text style={styles.field}>
-          Assigned To: <Text style={styles.fieldValue}>Umar Shareef</Text>
-        </Text>
+        <View style={styles.fieldContainer}>
+          <Text style={styles.field}>
+            Assigned To:{" "}
+            <Text style={styles.fieldValue}>
+              {getUserNameById(incident.AssignedTo)}
+            </Text>
+          </Text>
 
-        <Text style={styles.field}>
-          Start Date: <Text style={styles.fieldValue}>In 2 Days</Text>
-        </Text>
+          <View style={styles.dateField}>
+            <Text style={styles.field}>Start Date: </Text>
+
+            <TouchableOpacity onPress={() => setStartDateFull(!startDateFull)}>
+              {startDateFull ? (
+                <Text
+                  style={{ ...styles.fieldValue, fontSize: 10, color: "blue" }}
+                >
+                  {moment(incident.StartTime).format("MMMM DD YYYY, h:mm:ss a")}
+                </Text>
+              ) : (
+                <Text style={{ ...styles.fieldValue }}>
+                  {moment(incident.StartTime).fromNow()}
+                </Text>
+              )}
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
-    </View>
-    )
+    );
   }
 
-  const EditAbleFields = () =>{
+  const EditAbleFields = ({incident, getUserNameById}) =>{
     const [status, setStatus] = useState('I');
     const [assginee, setAssginee] = useState('1');  
     return (
@@ -68,7 +115,22 @@ const IncidentFields = (props) => {
     )
   }
 
-  export default IncidentFields;
+
+  const mapStateToProps = (state) => {
+    return {     
+      incidentData: state.incidents.IncidentSelected,
+      userId :state.userLogin.userId,  // logged in User Id  
+    };
+  };
+  
+  const mapDispatchToProps = (dispatch) => {
+    return {
+      updateIncident: (parameters) => dispatch(updateIncident(parameters)),        
+    };
+  };
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(IncidentFields);
+
 
   const styles = StyleSheet.create({
     topContainer:{
@@ -83,10 +145,17 @@ const IncidentFields = (props) => {
     },
     field:{
        color:'#1A237E',
-        fontSize:14,       
+        fontSize:14,
+        justifyContent:'center',
+        alignItems:'center'       
     },
     fieldValue:{
         color:'#848B98',
+    },
+    dateField:{
+      flexDirection:'row',
+      justifyContent:'flex-start',
+      alignItems:'center',
     },
     editBtnContainer:{ 
       width: Dimensions.get("window").width,

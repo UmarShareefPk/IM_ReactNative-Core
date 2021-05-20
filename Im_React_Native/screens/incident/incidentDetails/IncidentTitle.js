@@ -6,70 +6,67 @@ import { updateIncident } from "../../../store/actions/incidentsActions";
 import { connect } from "react-redux";
 import moment from "moment";;
 
- const IncidentTitle = ({incidentData, updateIncident, allAssignees}) => {
-    const [editAble, setEditAble] = useState(false);
+ const IncidentTitle = ({
+   incidentData,
+   updateIncident,
+   userId,
+   allAssignees,
+   getUserNameById,
+ }) => {
+   const [editAble, setEditAble] = useState(false);
 
-    const getUserNameById = (id) => {   
-      let user = allAssignees.find((assignee) => {
-        return assignee.Id === id;
-      });   
-      if(!user){    
-        return id;
-      }
-      return user.FirstName + " " + user.LastName
-    }
-
-    return (
-      <View>
-        {editAble ? (
-          <View style={styles.titleArea}>
-            <Input placeholder="Enter new Title" />
-            <View style={styles.editbtnsBox}>
-              <FAB
-                title="Cancel"
-                color="orange"
-                onPress={() => setEditAble(false)}
-                icon={<MaterialIcons name="cancel" size={30} color="white" />}
-              />
-              <FAB
-                title="Save"
-                style={{ marginLeft: 10 }}
-                color="green"
-                icon={<FontAwesome5 name="save" size={30} color="white" />}
-              />
-            </View>
-          </View>
-        ) : (
-          <>
-            <View style={styles.titleArea}>
-              <Text style={styles.title}>{incidentData.Title}</Text>
-              <View style={styles.titleEdit}>
-                <Text style={styles.timestamp}>
-                  Created by{" "}
-                  <Text style={{ fontWeight: "bold" }}>                   
-                    {getUserNameById(incidentData.CreatedBy)}
-                  </Text>
-                  {"   "}
-                  {moment(incidentData.CreatedAT).fromNow()}
-                </Text>
-                <Button
-                  onPress={() => setEditAble(!editAble)}
-                  title=""
-                  width="25"
-                  buttonStyle={styles.editBtn}
-                  icon={<Feather name="edit-2" size={20} color="#1A237E" />}
-                />
-              </View>
-            </View>
-          </>
-        )}
-      </View>
-    );
-  }
+   return (
+     <View>
+       {editAble ? (
+         <View style={styles.titleArea}>
+           <Input placeholder="Enter new Title" />
+           <View style={styles.editbtnsBox}>
+             <FAB
+               title="Cancel"
+               color="orange"
+               onPress={() => setEditAble(false)}
+               icon={<MaterialIcons name="cancel" size={30} color="white" />}
+             />
+             <FAB
+               title="Save"
+               style={{ marginLeft: 10 }}
+               color="green"
+               icon={<FontAwesome5 name="save" size={30} color="white" />}
+             />
+           </View>
+         </View>
+       ) : (
+         <>
+           <View style={styles.titleArea}>
+             <Text style={styles.title}>{incidentData.Title}</Text>
+             <View style={styles.titleEdit}>
+               <Text style={styles.timestamp}>
+                 Created by{" "}
+                 <Text style={{ fontWeight: "bold" }}>
+                   {getUserNameById(incidentData.CreatedBy)}
+                 </Text>
+                 {"   "}
+                 {moment(incidentData.CreatedAT).fromNow()}
+               </Text>
+               <Button
+                 onPress={() => setEditAble(!editAble)}
+                 title=""
+                 width="25"
+                 buttonStyle={styles.editBtn}
+                 icon={<Feather name="edit-2" size={20} color="#1A237E" />}
+               />
+             </View>
+           </View>
+         </>
+       )}
+     </View>
+   );
+ };
 
   const mapStateToProps = (state) => {
     return {     
       allAssignees: state.users.users,
+      userId :state.userLogin.userId, 
       incidentData: state.incidents.IncidentSelected,   
     };
   };

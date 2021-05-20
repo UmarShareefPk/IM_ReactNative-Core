@@ -30,11 +30,31 @@ function IncidentDetails(    {
     useEffect(() => {    
       getIncidentById(navigation.getParam('Id'));   
     }, [navigation.getParam('Id')]); // whenever Id changes get new
+        
+    const getUserNameById = (id) => {   
+      let user = allAssignees.find((assignee) => {
+        return assignee.Id === id;
+      });   
+      if(!user){    
+        return id; 
+      }
+      return user.FirstName + " " + user.LastName
+    }
 
-    useEffect(() => {
-      console.log("incidentData", incidentData)
-    }, [incidentData]);
-  
+    const statusName = (status) => {
+      switch (status) {
+        case "N":
+          return "New";
+        case "C":
+          return "Close";
+        case "A":
+          return "Approved";
+        case "I":
+          return "In Progress";
+        default:
+          return status;
+      }
+    };
 
     const tabs = ['Details',  'Comments'];
     const [selectedTab, setSelectedTab] = useState(0);
@@ -59,12 +79,14 @@ function IncidentDetails(    {
       return (<Comments />) 
   }
 
-    //console.log(props);
+  if(!incidentData)
+    return(<Text style={{justifyContent:'center', fontSize:20,}}>Loading...</Text>)
+
     return (
       <View style={styles.container}>
         
-        <IncidentTitle />
-        <IncidentFields />
+        <IncidentTitle getUserNameById={getUserNameById}  />
+        <IncidentFields  getUserNameById={getUserNameById} statusName={statusName} />
         <ButtonGroup
           onPress={tabChanged}
           selectedIndex={selectedTab}

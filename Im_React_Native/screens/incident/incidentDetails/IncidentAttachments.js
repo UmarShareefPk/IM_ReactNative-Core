@@ -2,38 +2,35 @@ import React,{useState} from 'react'
 import { View, Text, StyleSheet, TouchableOpacity , Dimensions, FlatList } from 'react-native';
 import { Button, Input, FAB, ButtonGroup  } from 'react-native-elements';
 import { Feather, FontAwesome5, MaterialIcons,    } from '@expo/vector-icons'; 
-import { ScrollView } from 'react-native';
+import { connect } from "react-redux";
+import { updateIncident, deleteAttachment } from "../../../store/actions/incidentsActions";
 
-
-const IncidentAttachments = (props) => {
+const IncidentAttachments = ( {
+  incidentData,
+  userId,
+  deleteAttachment,
+  updateIncident,
+}) => {
     const [editAble, setEditAble] = useState(false);
-    let files = [
-      { Id: 1, FileName: "File 1 abdkadkjadshkahd bjdaksjhdk" },
-      { Id: 2, FileName: "File 2" },
-      { Id: 3, FileName: "File 12" },
-      { Id: 4, FileName: "File 12" },
-      { Id: 5, FileName: "File 13" },
-      { Id: 6, FileName: "File 1d" },
-    ];
-  
-    const renderFiles = ({ item }) => {
+    const [files, setFiles] = useState(incidentData.Attachments)
       
-      return (
-        <View style={styles.attchment}>
-          {editAble ? (
-            <TouchableOpacity style={{ marginRight: 7 }}>
-              <MaterialIcons name="delete-forever" size={30} color="red" />
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity style={{ marginRight: 10 }}>
-              <MaterialIcons name="file-download" size={27} color="blue" />
-            </TouchableOpacity>
-          )}
-  
-          <Text>{item.FileName}</Text>
-        </View>
-      );
-    };
+      const renderFiles = ({ item }) => {
+        return (
+          <View style={styles.attchment}>
+            {editAble ? (
+              <TouchableOpacity style={{ marginRight: 7 }}>
+                <MaterialIcons name="delete-forever" size={30} color="red" />
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity style={{ marginRight: 10 }}>
+                <MaterialIcons name="file-download" size={27} color="blue" />
+              </TouchableOpacity>
+            )}
+
+            <Text>{item.FileName}</Text>
+          </View>
+        );
+      };
   
     return (
       <View style={styles.attchments}>
@@ -61,9 +58,23 @@ const IncidentAttachments = (props) => {
       </View>
     );
   };
-
+ 
+  const mapStateToProps = (state) => {
+    return {     
+      incidentData: state.incidents.IncidentSelected,
+      userId :state.userLogin.userId,  // logged in User Id      
+    };
+  };
   
-  export default IncidentAttachments;
+  const mapDispatchToProps = (dispatch) => {
+    return {    
+      updateIncident: (parameters) => dispatch(updateIncident(parameters)),   
+      deleteAttachment : (type, userid, incidentId , file) => dispatch(deleteAttachment(type, userid, incidentId ,file))    
+    };
+  };
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(IncidentAttachments);
+
 
   const styles = StyleSheet.create({
     title :{

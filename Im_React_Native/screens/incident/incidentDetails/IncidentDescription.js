@@ -2,14 +2,14 @@ import React,{useState} from 'react'
 import { View, Text, StyleSheet, TouchableOpacity , Dimensions, FlatList } from 'react-native';
 import { Button, Input, FAB  } from 'react-native-elements';
 import { Feather, FontAwesome5, MaterialIcons,    } from '@expo/vector-icons'; 
-import { ScrollView } from 'react-native';
+import { updateIncident } from "../../../store/actions/incidentsActions";
+import { connect } from "react-redux";
 
-const IncidentDescription = ({type}) => {
- 
+const IncidentDescription = ({type, incidentData, updateIncident}) => {
+
     const [editAble, setEditAble] = useState(false);
-    const [currentValue, setCurrentValue] = useState(`  Description here. All the Expo apps do share the exact same native runtime (RN + ExpoKit), the only difference is the JS that we give
-    them. ... Actually as the Expo SDK can be upgraded, the Expo client  includes a compatibility layer so that it is able to run the last 5  SDK versions`);
-    const [newValue, setNewValue] = useState("");
+    const [currentValue, setCurrentValue] = useState(type == "description"? incidentData.Description : incidentData.AdditionalData);
+    const [newValue, setNewValue] = useState(type == "description"? incidentData.Description : incidentData.AdditionalData);
   
     const update = () =>{
       setEditAble(false);
@@ -36,6 +36,7 @@ const IncidentDescription = ({type}) => {
             <Input
               placeholder="Enter new description"
               multiline={true}
+              defaultValue={newValue}
               onChangeText={(v) => setNewValue(v)}
             />
 
@@ -64,8 +65,21 @@ const IncidentDescription = ({type}) => {
     );
   }
   
+  const mapStateToProps = (state) => {
+    return {     
+      incidentData: state.incidents.IncidentSelected,   
+    };
+  };
+  
+  const mapDispatchToProps = (dispatch) => {
+    return {     
+      updateIncident: (parameters) => dispatch(updateIncident(parameters)),  
+    };
+  };
+  
+export default connect(mapStateToProps, mapDispatchToProps)(IncidentDescription);
 
-export default IncidentDescription;
+
 
 const styles = StyleSheet.create({
   descriptionBox: {   

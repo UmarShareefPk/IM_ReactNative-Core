@@ -5,19 +5,10 @@ import { Feather, FontAwesome5, MaterialIcons,    } from '@expo/vector-icons';
 import { ScrollView } from 'react-native';
 
 
-const CommentAttachments = ({editAble}) => {
-  
-    let files = [
-      { Id: 1, FileName: "File 1 abdkadkjadshkahd bjdaksjhdk" },
-      { Id: 2, FileName: "File 2" },
-      { Id: 3, FileName: "File 12" },
-      { Id: 4, FileName: "File 12" },
-      { Id: 5, FileName: "File 13" },
-      { Id: 6, FileName: "File 1d" },
-    ];
-  
-    const renderFiles = ({ item }) => {
-      
+const CommentAttachments = ({editAble, attachments}) => {
+  const [files, setFiles] = useState(attachments)
+   
+    const renderFiles = ({ item }) => {      
       return (
         <View style={styles.attchment}>
           {editAble ? (
@@ -36,9 +27,7 @@ const CommentAttachments = ({editAble}) => {
     };
   
     return (
-      <View style={styles.attchments}>
-          
-
+      <View style={styles.attchments}>   
         <FlatList      
           //numColumns={2}
           contentContainerStyle = {{justifyContent:'center',}}
