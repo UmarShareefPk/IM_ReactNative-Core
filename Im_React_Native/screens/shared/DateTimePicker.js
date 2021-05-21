@@ -2,6 +2,7 @@ import React,{useState} from 'react'
 import { View, Text, StyleSheet, TouchableOpacity , Dimensions, FlatList } from 'react-native';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from "moment";
+import { Feather, FontAwesome, MaterialIcons,    } from '@expo/vector-icons';
 
 const DateTimePicker = ({label , datetime, datetimeChanged}) =>{
 
@@ -27,8 +28,9 @@ const DateTimePicker = ({label , datetime, datetimeChanged}) =>{
     <View style={styles.dropdownContainer}>
       <Text style={styles.dropdownLable}>{label}</Text>
      
-      <TouchableOpacity onPress={showDatePicker}>
-        <Text style={styles.datetimeBox}>{moment(date).format("MMMM DD YYYY, h:mm a")}</Text>
+      <TouchableOpacity onPress={showDatePicker}  style={styles.datetimeBox}>
+        <Text style={styles.datetimeText}>{moment(date).format("MMMM DD YYYY, h:mm a")}</Text>
+        <FontAwesome name="calendar" size={20} color="#1A237E" />
       </TouchableOpacity>
       
       <DateTimePickerModal
@@ -64,6 +66,9 @@ const styles = StyleSheet.create({
     color:'#1A237E',
   },
   datetimeBox:{
+    flexDirection:'row',
+    justifyContent:'space-between',
+    alignItems:'center',
     borderWidth:1,
     borderRadius:7,
     paddingHorizontal:10,
@@ -72,4 +77,9 @@ const styles = StyleSheet.create({
     color:'#1A237E',
     textAlign:'left'
   },
+  datetimeText:{
+  
+    color:'#1A237E',
+    textAlign:'left'
+  },  
 });

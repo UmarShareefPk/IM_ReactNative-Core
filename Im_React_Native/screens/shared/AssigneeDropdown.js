@@ -3,16 +3,16 @@ import { View, Text, StyleSheet, TouchableOpacity , Dimensions, FlatList } from 
 import DropDownPicker from 'react-native-dropdown-picker';
 
 
-const AssigneeDropDown = ({selectedAssignee, assigneeChanged}) =>{
+const AssigneeDropDown = ({selectedAssignee, assigneeChanged, allAssignees}) =>{
+
+  const assigneeList = [];
+  allAssignees.map((assignee)=>{
+    assigneeList.push( { label: (assignee.FirstName + " " + assignee.LastName), value: assignee.Id });
+  })
 
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState(selectedAssignee);
-    const [items, setItems] = useState([
-        { label: 'Umar Shareef', value: '1' },
-        { label: 'Qamar Shareef', value: '2' },
-        { label: 'Ali Raza', value: '3' },
-        { label: 'Kaka Khan', value: '4' }
-    ]);   
+    const [items, setItems] = useState(assigneeList);   
    
     return (
       <View style={styles.dropdownContainer}>

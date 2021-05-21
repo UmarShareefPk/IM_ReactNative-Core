@@ -3,48 +3,106 @@ import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-nati
 import { Button, Input, FAB  } from 'react-native-elements';
 import { Feather, FontAwesome5, MaterialIcons,    } from '@expo/vector-icons'; 
 import * as DocumentPicker from 'expo-document-picker';
-import { ScrollView } from 'react-native';
+import { connect } from "react-redux";
+import { addNewComment  } from "../../../store/actions/incidentsActions";
 
-const AddComment = ({hideModal}) => {
 
-    const [files, setFiles] = useState(null);
-  
-    const selectFiles = async () => {    
+const AddComment = ({
+  hideModal, 
+  userId,
+  addNewComment,
+  incidentId
+}) => {
+
+    const [files, setFiles] = useState([]);
+    const [newComment, setNewComment] = useState("");
+    const [selectedFilesCount, setSelectedFilesCount] = useState(0);
+
+    const selectFiles = async () => {    // did not work
       try {      
-        const res = await DocumentPicker.getDocumentAsync({         
+        const res = await DocumentPicker.getDocumentAsync({   
+          type: "*/*",
+         // multiple: true,
+          copyToCacheDirectory: true      
         });
         // Printing the log realted to the file
-        console.log('res : ' + JSON.stringify(res));
+        //console.log('res : ' + JSON.stringify(res));
+        //console.log('res : ' + res);
         // Setting the state to show single file attributes
-        setFiles(res);
+        setFiles([...files, res]);
+        setSelectedFilesCount(selectedFilesCount+1);
+
       } catch (err) {
         setFiles(null);
         // Handling any exception (If any)      
       }
     };
 
-    return (
-   
-      <View style={styles.container}>
+    const pickDocument = async () => {
+      let result = await DocumentPicker.getDocumentAsync({ type: "*/*", copyToCacheDirectory: true }).then(response => {
+          if (response.type == 'success') {          
+            let { name, size, uri } = response;
+            let nameParts = name.split('.');
+            let fileType = nameParts[nameParts.length - 1];
+            var fileToUpload = {
+              name: name,
+              size: size,
+              uri: uri,
+              type: "application/" + fileType
+            };
+           // console.log(fileToUpload, '...............file')
+            setFiles([...files, fileToUpload]);
+            setSelectedFilesCount(selectedFilesCount+1);
+          } 
+        });      
+  }
 
+    const addComment = () => {
+      if (newComment.trim() === "") {
+           return;
+      }
+      const formData = new FormData();  
+      if (files) {
+        for (let i = 0; i < files.length; i++) {       
+          formData.append(
+            "Attachment" + i + 1,
+            files[i],
+            files[i].name
+          );
+        }
+      }
+      formData.append("CommentText", newComment.trim());
+      formData.append("IncidentId", incidentId);
+      formData.append("UserId", userId);
+
+    //  console.log("formData", formData);
+      addNewComment(formData);
+   
+      hideModal(false);
+    }
+
+    return (
+      <View style={styles.container}>
         <View style={styles.header}>
           <MaterialIcons name="add-comment" size={40} color="#1A237E" />
           <Text style={styles.headerText}>Add comment</Text>
         </View>
+
         <Input
           placeholder="Type a comment"
           multiline
-
+          onChangeText={(v) => setNewComment(v)}
           inputStyle={{ fontSize: 18 }}
           leftIcon={<MaterialIcons name="comment" size={25} color="#1A237E" />}
         />
 
-        <TouchableOpacity
-          style={styles.selectFileBtn}
-        //onPress={selectFiles}
-        >
+        <TouchableOpacity style={styles.selectFileBtn} onPress={pickDocument}>
           <MaterialIcons name="attachment" size={35} color="#1A237E" />
-          <Text style={styles.selectFileText} >Select Files</Text>
+          <Text style={styles.selectFileText}>
+            {selectedFilesCount > 0
+              ? selectedFilesCount + " files selected"
+              : "Select Files"}
+          </Text>
         </TouchableOpacity>
 
         <View style={styles.btnsBox}>
@@ -58,16 +116,29 @@ const AddComment = ({hideModal}) => {
             title="Save"
             style={{ marginLeft: 10 }}
             color="green"
-            //onPress={() => update()}
+            onPress={() => addComment()}
             icon={<FontAwesome5 name="save" size={30} color="white" />}
           />
         </View>
       </View>
-      
     );
 }
 
-export default AddComment
+const mapStateToProps = (state) => {
+  return {
+    allAssignees: state.users.users,
+    incidentId: state.incidents.IncidentSelected.Id,
+    userId :state.userLogin.userId,  // logged in User Id       
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {    
+    addNewComment: (formData) => dispatch(addNewComment(formData))    
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(AddComment);
+
 
 const styles = StyleSheet.create({
   scroll:{

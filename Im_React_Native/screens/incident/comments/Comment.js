@@ -5,14 +5,16 @@ import { Feather, FontAwesome5, MaterialIcons,    } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native';
 import CommentAttachments from './CommentAttachments';
 import { connect } from "react-redux";
-import { updateIncident } from "../../../store/actions/incidentsActions";
+import { updateComment , deleteComment  } from "../../../store/actions/incidentsActions";
+import moment from "moment";;
 
 
-const Comment = ({comment, updateIncident, userId}) => {
+const Comment = ({comment, updateComment, deleteComment, userId, allAssignees}) => {
     const [editAble, setEditAble] = useState(false);
     const [viewAttchments, setViewAttchments] = useState(false);
     const [currentValue, setCurrentValue] = useState(comment.CommentText);
-    const [newValue, setNewValue] = useState("");
+    const [newValue, setNewValue] = useState(comment.CommentText);
+    const [commentedDateToggle, setCommentedDateToggle] = useState(false)
 
     const deleteCommentConfirmation = () => {
         Alert.alert(
@@ -24,12 +26,26 @@ const Comment = ({comment, updateIncident, userId}) => {
                 onPress: () => console.log("Cancel Pressed"),
                 style: "cancel"
               },
-              { text: "Yes. Delete", onPress: () => console.log("OK Pressed") }
+              { text: "Yes. Delete", onPress: () => deleteComment(comment.Id,comment.IncidentId, userId )   }
             ]
           );
     }
 
-    
+    const updateCommentText = ()=>{
+      if (newValue.trim() == "") return;
+      setCurrentValue(newValue);
+      setEditAble(false);
+
+      let changedComment = {
+        Id : comment.Id,
+        IncidentId : comment.IncidentId,
+        UserId : userId,
+        CreateDate : new Date(),
+        CommentText : newValue,
+        attachments :[]
+      }
+      updateComment(changedComment);
+    }
 
 
     const getUserNameById = (id) => {   
@@ -47,10 +63,20 @@ const Comment = ({comment, updateIncident, userId}) => {
       <View style={styles.container}>
         <View style={styles.header}>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Text style={styles.user}>{"Umar Shareef"}</Text>
+            <Text style={styles.user}>{getUserNameById(comment.UserId)}</Text>
             <Text style={{ fontSize: 10, padding: 0 }}>added a comment</Text>
           </View>
-          <Text style={{ fontSize: 10, color: "#1A237E" }}>3 days ago</Text>
+
+          <TouchableOpacity
+            onPress={() => setCommentedDateToggle(!commentedDateToggle)}
+          >
+            <Text style={{ fontSize: 10, color: "#1A237E" }}>
+              {commentedDateToggle
+                ? moment(comment.CreateDate).format("MMMM DD YYYY, h:mm a")
+                : moment(comment.CreateDate).fromNow()}
+            </Text>
+          </TouchableOpacity>
+
           <View style={styles.commentBtns}>
             <TouchableOpacity onPress={() => setEditAble(!editAble)}>
               <Feather name="edit-2" size={18} color="#1A237E" />
@@ -81,7 +107,7 @@ const Comment = ({comment, updateIncident, userId}) => {
                 title="Save"
                 style={{ marginLeft: 10 }}
                 color="green"
-                onPress={() => update()}
+                onPress={() => updateCommentText()}
                 icon={<FontAwesome5 name="save" size={30} color="white" />}
               />
             </View>
@@ -91,30 +117,36 @@ const Comment = ({comment, updateIncident, userId}) => {
             <Text style={styles.commentText}>{currentValue}</Text>
           </View>
         )}
-        {comment.attachments.length == 0? null : (
+        {comment.attachments.length == 0 ? null : (
           <TouchableOpacity onPress={() => setViewAttchments(!viewAttchments)}>
-          <Text style={styles.viewAttachmentsToggleText}>
-            {" "}
-            {viewAttchments ? "Hide Attachments" : "Show Attachments"}
-          </Text>
-        </TouchableOpacity>
+            <Text style={styles.viewAttachmentsToggleText}>
+              {" "}
+              {viewAttchments ? "Hide Attachments" : "Show Attachments"}
+            </Text>
+          </TouchableOpacity>
         )}
-        
 
-        {viewAttchments ? <CommentAttachments editAble={editAble} attachments={ comment.attachments} /> : null}
+        {viewAttchments ? (
+          <CommentAttachments
+            editAble={editAble}
+            attachments={comment.attachments}
+          />
+        ) : null}
       </View>
     );
 }
 
 const mapStateToProps = (state) => {
-  return {    
+  return { 
+    allAssignees: state.users.users,   
     userId :state.userLogin.userId,  // logged in User Id    
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {  
-    updateIncident: (parameters) => dispatch(updateIncident(parameters)),  
+    updateComment : (comment) => dispatch(updateComment(comment)),
+    deleteComment : (commentId, incidentId, userId) => dispatch(deleteComment(commentId, incidentId, userId))
   };
 };
 

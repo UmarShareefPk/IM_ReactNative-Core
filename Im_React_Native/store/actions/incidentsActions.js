@@ -48,15 +48,15 @@ export const incidentsWithPage = (parameters) => {
     return (dispatch, getState) => {      
         axios.defaults.headers = {'Authorization': `Bearer ${getState().userLogin.token + ""}`};
         const url = incidentsUrls.addNewCommentUrl
-        axios.post(url, formData)
-          .then((response)=>{            
+         axios.post(url, formData)
+           .then((response)=>{            
              const comment = response.data;
             // console.log("Comment", comment);
               dispatch({ type: 'ADD_NEW_COMMENT', data: comment });
               incidentUpdatedSignalR(comment.IncidentId);
           })
           .catch((err)=>{                 
-            console.log(err.message);
+            console.log("err", err);
             const data = "while adding comment: " + err.message;
             dispatch({ type: 'INCIDENTS_BY_ID_ERROR', data });
           });   

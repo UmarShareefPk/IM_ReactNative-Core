@@ -9,18 +9,41 @@ import moment from "moment";;
  const IncidentTitle = ({
    incidentData,
    updateIncident,
-   userId,
-   allAssignees,
+   userId,   
    getUserNameById,
  }) => {
    const [editAble, setEditAble] = useState(false);
    const [createdDateToggle, setCreatedDateToggle] = useState(false);
+   const [currentValue, setCurrentValue] = useState(incidentData.Title);
+   const [newValue, setNewValue] = useState(incidentData.Title);
+
+   const updateTitle = () => {
+     if(newValue.trim() == "")
+        return;
+      setCurrentValue(newValue);
+      setEditAble(false);
+      updateIncidentByField("Title", newValue);
+   }
+
+   const updateIncidentByField = (field , value) => {    
+    let parameters = {
+      IncidentId : incidentData.Id,
+      Parameter : field,
+      Value : value,
+      UserId : userId
+    };
+    updateIncident(parameters); // Calling action here
+  }
 
    return (
      <View>
        {editAble ? (
          <View style={styles.titleArea}>
-           <Input placeholder="Enter new Title" />
+           <Input
+             placeholder="Enter new Title"
+             defaultValue={newValue}
+             onChangeText={(v) => setNewValue(v)}
+           />
            <View style={styles.editbtnsBox}>
              <FAB
                title="Cancel"
@@ -32,6 +55,7 @@ import moment from "moment";;
                title="Save"
                style={{ marginLeft: 10 }}
                color="green"
+               onPress={()=> updateTitle()}
                icon={<FontAwesome5 name="save" size={30} color="white" />}
              />
            </View>
@@ -39,7 +63,8 @@ import moment from "moment";;
        ) : (
          <>
            <View style={styles.titleArea}>
-             <Text style={styles.title}>{incidentData.Title}</Text>
+             <Text style={styles.title}>{currentValue}</Text>
+
              <View style={styles.titleEdit}>
                <View style={styles.timestamp}>
                  <Text style={styles.timestampText}>
@@ -52,8 +77,8 @@ import moment from "moment";;
                  <TouchableOpacity
                    onPress={() => setCreatedDateToggle(!createdDateToggle)}
                  >
-                   <Text style={{...styles.timestampText, color:'indigo'}}>
-                   {"  "}
+                   <Text style={{ ...styles.timestampText, color: "indigo" }}>
+                     {"  "}
                      {createdDateToggle
                        ? moment(incidentData.CreatedAT).format(
                            "MMMM DD YYYY, h:mm a"

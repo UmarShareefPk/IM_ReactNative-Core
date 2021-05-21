@@ -5,16 +5,34 @@ import { Feather, FontAwesome5, MaterialIcons,    } from '@expo/vector-icons';
 import { updateIncident } from "../../../store/actions/incidentsActions";
 import { connect } from "react-redux";
 
-const IncidentDescription = ({type, incidentData, updateIncident}) => {
+const IncidentDescription = ({type, incidentData, updateIncident, userId}) => {
 
     const [editAble, setEditAble] = useState(false);
     const [currentValue, setCurrentValue] = useState(type == "description"? incidentData.Description : incidentData.AdditionalData);
     const [newValue, setNewValue] = useState(type == "description"? incidentData.Description : incidentData.AdditionalData);
   
     const update = () =>{
+      if(newValue.trim()=="")
+        return;
+      
       setEditAble(false);
       setCurrentValue(newValue);
+      type == "description"
+        ? updateIncidentByField("Description", newValue)
+        : updateIncidentByField("AdditionalData", newValue);
+         
     }
+
+    const updateIncidentByField = (field , value) => {    
+      let parameters = {
+        IncidentId : incidentData.Id,
+        Parameter : field,
+        Value : value,
+        UserId : userId
+      };
+      updateIncident(parameters); // Calling action here
+    }
+  
   
     return (
       <View style={styles.descriptionBox}>
@@ -67,7 +85,8 @@ const IncidentDescription = ({type, incidentData, updateIncident}) => {
   
   const mapStateToProps = (state) => {
     return {     
-      incidentData: state.incidents.IncidentSelected,   
+      incidentData: state.incidents.IncidentSelected,
+      userId :state.userLogin.userId,    
     };
   };
   

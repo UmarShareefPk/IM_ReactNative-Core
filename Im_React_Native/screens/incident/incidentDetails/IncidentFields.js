@@ -10,39 +10,47 @@ import { connect } from "react-redux";
 import moment from "moment";
 
 
-const IncidentFields = ({incidentData, updateIncident, userId, getUserNameById, statusName}) => {
+const IncidentFields = ({
+  incidentData,
+  updateIncident,
+  userId,
+  getUserNameById,
+  statusName,
+  allAssignees,
+}) => {
   const [editAble, setEditAble] = useState(false);
-   
-    return (
-      <>
-        <View>
-          {editAble ? (
-            <EditAbleFields
-              incident={incidentData}
-              getUserNameById={getUserNameById}
-              updateIncident={updateIncident}
-              userId={userId}
-            />
-          ) : (
-            <StaticFields
-              incident={incidentData}
-              getUserNameById={getUserNameById}
-              statusName={statusName}
-            />
-          )}
-        </View>
-        <View style={styles.editBtnContainer}>
-          <Button
-            onPress={() => setEditAble(!editAble)}
-            title=""
-            width="25"
-            buttonStyle={styles.editBtn}
-            icon={<Feather name="edit-2" size={20} color="#1A237E" />}
+
+  return (
+    <>
+      <View>
+        {editAble ? (
+          <EditAbleFields
+            incident={incidentData}
+            getUserNameById={getUserNameById}
+            updateIncident={updateIncident}
+            userId={userId}
+            allAssignees={allAssignees}
           />
-        </View>
-      </>
-    );
-  }
+        ) : (
+          <StaticFields
+            incident={incidentData}
+            getUserNameById={getUserNameById}
+            statusName={statusName}
+          />
+        )}
+      </View>
+      <View style={styles.editBtnContainer}>
+        <Button
+          onPress={() => setEditAble(!editAble)}
+          title=""
+          width="25"
+          buttonStyle={styles.editBtn}
+          icon={<Feather name="edit-2" size={20} color="#1A237E" />}
+        />
+      </View>
+    </>
+  );
+};
 
   const StaticFields = ({incident, getUserNameById, statusName}) =>{
     let currentDate = new Date();
@@ -111,10 +119,8 @@ const IncidentFields = ({incidentData, updateIncident, userId, getUserNameById, 
     );
   }
 
-  const EditAbleFields = ({incident, getUserNameById, updateIncident, userId}) =>{
-    const [status, setStatus] = useState('I');
-    const [assginee, setAssginee] = useState('1');  
-
+  const EditAbleFields = ({incident, getUserNameById, updateIncident, userId, allAssignees}) =>{
+       
     const updateIncidentByField = (field , value) => {    
       let parameters = {
         IncidentId : incident.Id,
@@ -125,6 +131,13 @@ const IncidentFields = ({incidentData, updateIncident, userId, getUserNameById, 
       updateIncident(parameters); // Calling action here
     }
 
+    const statusChanged = (newStatus) => {
+      updateIncidentByField("Status", newStatus);
+  };
+
+    const assigneChanged = (newAssignee) => {
+        updateIncidentByField("AssignedTo", newAssignee);
+    };
     
     const startTimeChanged = (newdate) => {
       console.log("New Start Date", newdate);
@@ -137,10 +150,11 @@ const IncidentFields = ({incidentData, updateIncident, userId, getUserNameById, 
     };
     return (
       <View style={styles.topContainerEdit}>
-        <StatusDropDown selectedStatus={status} statusChanged={setStatus} />
+        <StatusDropDown selectedStatus={incident.Status} statusChanged={statusChanged}  />
         <AssigneeDropDown
-          selectedAssignee={assginee}
-          assigneeChanged={setAssginee}
+          selectedAssignee={incident.AssignedTo}
+          assigneeChanged={assigneChanged}
+          allAssignees={allAssignees}
         />
         <DateTimePicker
           label={"Start Time"}
@@ -158,7 +172,8 @@ const IncidentFields = ({incidentData, updateIncident, userId, getUserNameById, 
 
 
   const mapStateToProps = (state) => {
-    return {     
+    return {
+      allAssignees: state.users.users,     
       incidentData: state.incidents.IncidentSelected,
       userId :state.userLogin.userId,  // logged in User Id  
     };

@@ -9,7 +9,7 @@ export default function Incident({navigation,incident, getUserNameById}) {
       case "N":
         return "New";
       case "C":
-        return "Close";
+        return "Closed";
       case "A":
         return "Approved";
       case "I":
