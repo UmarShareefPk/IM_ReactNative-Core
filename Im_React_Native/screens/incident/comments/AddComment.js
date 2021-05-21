@@ -25,6 +25,14 @@ const AddComment = ({
          // multiple: true,
           copyToCacheDirectory: true      
         });
+        // Array [
+        //   "Attachment11",
+        //   Object {
+        //     "name": "sample2.txt",
+        //     "size": 2859,
+        //     "type": "success",
+        //     "uri": "file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540umar-expo%252FIm_React_Native/DocumentPicker/3df9bf38-aa25-41d0-9da3-de3d1dd90640.txt",
+        //   },
         // Printing the log realted to the file
         //console.log('res : ' + JSON.stringify(res));
         //console.log('res : ' + res);
@@ -39,23 +47,26 @@ const AddComment = ({
     };
 
     const pickDocument = async () => {
-      let result = await DocumentPicker.getDocumentAsync({ type: "*/*", copyToCacheDirectory: true }).then(response => {
-          if (response.type == 'success') {          
-            let { name, size, uri } = response;
-            let nameParts = name.split('.');
-            let fileType = nameParts[nameParts.length - 1];
-            var fileToUpload = {
-              name: name,
-              size: size,
-              uri: uri,
-              type: "application/" + fileType
-            };
-           // console.log(fileToUpload, '...............file')
-            setFiles([...files, fileToUpload]);
-            setSelectedFilesCount(selectedFilesCount+1);
-          } 
-        });      
-  }
+      let result = await DocumentPicker.getDocumentAsync({
+        type: "*/*",
+        copyToCacheDirectory: true,
+      }).then((response) => {
+        if (response.type == "success") {
+          let { name, size, uri } = response;
+          let nameParts = name.split(".");
+          let fileType = nameParts[nameParts.length - 1];
+          var fileToUpload = {
+            name: name,
+            size: size,
+            uri: uri,
+            type: "application/" + fileType,
+          };
+          // console.log(fileToUpload, '...............file')
+          setFiles([...files, fileToUpload]);
+          setSelectedFilesCount(selectedFilesCount + 1);
+        }
+      });
+    };
 
     const addComment = () => {
       if (newComment.trim() === "") {

@@ -30,6 +30,7 @@ export const incidentsWithPage = (parameters) => {
 
   export const addNewIncident = (formData) => {
     return (dispatch, getState) => {      
+      console.log("add new incident action");
         axios.defaults.headers = {'Authorization': `Bearer ${getState().userLogin.token + ""}`};
         const url = incidentsUrls.addNewIncidentUrl
         axios.post(url, formData)
@@ -39,6 +40,7 @@ export const incidentsWithPage = (parameters) => {
           })
           .catch((err)=>{  
             const data = err.message;
+            console.log(data);
             dispatch({ type: 'NEW_INCIDENT_ERROR', data });
           });   
     }
