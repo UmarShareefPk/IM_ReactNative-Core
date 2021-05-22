@@ -19,6 +19,7 @@ const AddIncident = ({
   addNewIncident,
   addNewError,
   AddNewIncidentStatus,
+  reloadIncidents
 }) => {
   
   const [title, setTitle] = useState("");
@@ -37,6 +38,7 @@ const AddIncident = ({
   }, [])
 
   const pickDocument = async () => {
+    try{
     let result = await DocumentPicker.getDocumentAsync({
       type: "*/*",
       copyToCacheDirectory: true,
@@ -56,6 +58,11 @@ const AddIncident = ({
         setSelectedFilesCount(selectedFilesCount + 1);     
       }
     }).catch(err => console.log("ERROR in PICKING : ",err));
+  }
+  catch(ex){
+    console.log("error in picking document", ex);
+  }
+
   };
 
 
@@ -94,6 +101,7 @@ const AddIncident = ({
   }
 
   if(AddNewIncidentStatus){
+    reloadIncidents();
     hideModal(false);
   }
 

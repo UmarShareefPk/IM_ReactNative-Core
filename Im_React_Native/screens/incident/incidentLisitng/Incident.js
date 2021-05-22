@@ -1,8 +1,10 @@
 import React from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
 import moment from "moment";;
+import { removeIncidentData } from "../../../store/actions/incidentsActions";
+import { connect  } from 'react-redux';
 
-export default function Incident({navigation,incident, getUserNameById}) {
+ function Incident({navigation,incident, getUserNameById, dispatch}) {
   
   const statusName = (status) => {
     switch (status) {
@@ -19,12 +21,18 @@ export default function Incident({navigation,incident, getUserNameById}) {
     }
   };
 
+  const openIncident = () => {  
+    dispatch(removeIncidentData()); // So that user does not see old data that is stored in redux (and local storage)
+    navigation.navigate("IncidentDetails", { Id: incident.Id })
+  }
+
+
   let currentDate = new Date();
   const dueDateColor =
     new Date(incident.DueDate) < currentDate ? "red" : "green";
   
     return (
-      <TouchableOpacity  onPress={() => navigation.navigate("IncidentDetails", { Id: incident.Id })}>
+      <TouchableOpacity  onPress={openIncident}>
         <View style={styles.incidentBox}>
           <View style={styles.titleArea}>
             <Text style={styles.title}>{incident.Title}</Text>
@@ -56,6 +64,8 @@ export default function Incident({navigation,incident, getUserNameById}) {
       </TouchableOpacity>
     );
 }
+
+export default connect()(Incident);
 
 const styles = StyleSheet.create({
     incidentBox :{

@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState, useEffect} from 'react'
 import { View, Text, StyleSheet, TouchableOpacity , Dimensions, FlatList } from 'react-native';
 import { Button, Input, FAB  } from 'react-native-elements';
 import { Feather, FontAwesome5, MaterialIcons,    } from '@expo/vector-icons'; 
@@ -8,9 +8,14 @@ import { connect } from "react-redux";
 const IncidentDescription = ({type, incidentData, updateIncident, userId}) => {
 
     const [editAble, setEditAble] = useState(false);
-    const [currentValue, setCurrentValue] = useState(type == "description"? incidentData.Description : incidentData.AdditionalData);
-    const [newValue, setNewValue] = useState(type == "description"? incidentData.Description : incidentData.AdditionalData);
+    const [currentValue, setCurrentValue] = useState("");
+    const [newValue, setNewValue] = useState("");
   
+    useEffect(() => {
+      setCurrentValue(type == "description"? incidentData.Description : incidentData.AdditionalData);
+      setNewValue(type == "description"? incidentData.Description : incidentData.AdditionalData);
+     }, [incidentData])
+
     const update = () =>{
       if(newValue.trim()=="")
         return;

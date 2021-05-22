@@ -26,6 +26,13 @@ function Incidents(props) {
 
 
     useEffect(() => {
+       loadIncident();
+      return () => {
+        cancel(); // cancel axios
+      };
+    }, [PageNumber, PageSize, Search]);
+    
+    const loadIncident = () =>{
       const parameters = {
         PageNumber: PageNumber,
         PageSize: PageSize,
@@ -34,11 +41,8 @@ function Incidents(props) {
       setLoading(true);
       props.incidentsWithPage(parameters);
       setLoading(false);
-      return () => {
-        cancel(); // cancel axios
-      };
-    }, [PageNumber, PageSize, Search]);
-  
+    }
+
     const searchTextChange = (text) => {
       setSearch(text);
       setPageNumber(1);
@@ -90,7 +94,7 @@ function Incidents(props) {
             setIncidentModelVisibility(!incidentModelVisibility);
           }}
         >
-          <AddIncident hideModal={setIncidentModelVisibility} />
+          <AddIncident hideModal={setIncidentModelVisibility} reloadIncidents={loadIncident} />
         </Modal>
 
         <Input

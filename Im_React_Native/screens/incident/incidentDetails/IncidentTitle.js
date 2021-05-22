@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState, useEffect} from 'react'
 import { View, Text, StyleSheet, TouchableOpacity , Dimensions } from 'react-native';
 import { Input, FAB, Button  } from 'react-native-elements';
 import { Feather, FontAwesome5, MaterialIcons,    } from '@expo/vector-icons'; 
@@ -17,6 +17,11 @@ import moment from "moment";;
    const [currentValue, setCurrentValue] = useState(incidentData.Title);
    const [newValue, setNewValue] = useState(incidentData.Title);
 
+   useEffect(() => {
+    setCurrentValue(incidentData.Title);
+    setNewValue(incidentData.Title);
+   }, [incidentData])
+   
    const updateTitle = () => {
      if(newValue.trim() == "")
         return;

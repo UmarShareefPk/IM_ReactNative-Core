@@ -21,9 +21,9 @@ const AddComment = ({
     const selectFiles = async () => {    // did not work
       try {      
         const res = await DocumentPicker.getDocumentAsync({   
-          type: "*/*",
+         // type: "*/*",
          // multiple: true,
-          copyToCacheDirectory: true      
+         // copyToCacheDirectory: true      
         });
         // Array [
         //   "Attachment11",
@@ -107,7 +107,7 @@ const AddComment = ({
           leftIcon={<MaterialIcons name="comment" size={25} color="#1A237E" />}
         />
 
-        <TouchableOpacity style={styles.selectFileBtn} onPress={pickDocument}>
+        <TouchableOpacity style={styles.selectFileBtn} onPress={selectFiles}>
           <MaterialIcons name="attachment" size={35} color="#1A237E" />
           <Text style={styles.selectFileText}>
             {selectedFilesCount > 0

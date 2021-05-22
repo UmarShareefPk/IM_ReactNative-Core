@@ -24,11 +24,12 @@ function IncidentDetails(    {
   deleteAttachment,
   IncidentDetailError      
 }
-) {
-    
+) {   
   
     useEffect(() => {    
-      getIncidentById(navigation.getParam('Id'));   
+      console.log("avigation.getParam('Id')", navigation.getParam('Id'));
+     let id = navigation.getParam('Id');
+        getIncidentById(id);   
     }, [navigation.getParam('Id')]); // whenever Id changes get new
         
     const getUserNameById = (id) => {   
@@ -46,7 +47,7 @@ function IncidentDetails(    {
         case "N":
           return "New";
         case "C":
-          return "Close";
+          return "Closed";
         case "A":
           return "Approved";
         case "I":
@@ -80,7 +81,7 @@ function IncidentDetails(    {
   }
 
   if(!incidentData)
-    return(<Text style={{justifyContent:'center', fontSize:20,}}>Loading...</Text>)
+    return(<Text style={styles.loading}>Loading...</Text>)
 
     return (
       <View style={styles.container}>
@@ -93,9 +94,8 @@ function IncidentDetails(    {
           buttons={tabs}
           containerStyle={{ height: 30, backgroundColor:'white'}}
           textStyle={{color:'#1A237E'}}
-          selectedButtonStyle = {{backgroundColor:'#1A237E'}}
-         // selectedTextStyle = {{color:'red'}}
-         innerBorderStyle = {{width:2, color:'white'}}
+          selectedButtonStyle = {{backgroundColor:'#1A237E'}}        
+         //innerBorderStyle = {{width:2, color:'white'}}
          
         />
 
@@ -128,12 +128,18 @@ export default connect(mapStateToProps, mapDispatchToProps)(IncidentDetails);
 
 const styles = StyleSheet.create({
     container :{
-        backgroundColor:'#fff',
+       backgroundColor:'#fff',
         marginTop:0,
         padding:5,
         flex:1,
         flexDirection:'column',
         justifyContent:'flex-start',
         alignItems : 'center'
+    },
+    loading: {
+      marginTop: 50,
+      color: "#efe",
+      textAlign: "center",
+      fontSize: 30,
     },
 });

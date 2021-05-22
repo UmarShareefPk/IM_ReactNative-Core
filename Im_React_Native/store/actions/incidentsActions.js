@@ -125,7 +125,6 @@ export const incidentsWithPage = (parameters) => {
 
   export const getIncidentById = (incidentId) => {
     return (dispatch, getState) => {  
-    //  console.log("getIncidentById" ); 
         axios.defaults.headers = {'Authorization': `Bearer ${getState().userLogin.token + ""}`};
         const url = incidentsUrls.getIncidentByIdUrl + incidentId; 
         axios.get(url)
