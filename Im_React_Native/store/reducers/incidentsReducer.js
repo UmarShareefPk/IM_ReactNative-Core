@@ -110,9 +110,18 @@ const initState = {
 
            default:
          }
+         // update in incidents 
+         let _incidents = [...state.Incidents];
+         _incidents = _incidents.map(incident => {
+           if(incident.Id == changedincident.Id){
+            incident = changedincident;         
+           }            
+           return incident;
+         })         
          return {
            ...state,
            IncidentSelected: changedincident,
+           Incidents:_incidents,
          };
 
        case "ADD_NEW_COMMENT":
@@ -120,6 +129,19 @@ const initState = {
          changedincident.Comments = [action.data].concat(
            changedincident.Comments
          );
+         return {
+           ...state,
+           IncidentSelected: changedincident,
+         };
+
+       case "COMMENT_UPDATE":
+         changedincident = { ...state.IncidentSelected };
+         changedincident.Comments = changedincident.Comments.map(comment => {
+          if(comment.Id == action.data.Id)
+            comment.CommentText = action.data.CommentText; 
+          return comment;
+         })
+       
          return {
            ...state,
            IncidentSelected: changedincident,
