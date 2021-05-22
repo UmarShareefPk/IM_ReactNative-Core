@@ -107,7 +107,7 @@ const AddComment = ({
           leftIcon={<MaterialIcons name="comment" size={25} color="#1A237E" />}
         />
 
-        <TouchableOpacity style={styles.selectFileBtn} onPress={selectFiles}>
+        <TouchableOpacity style={styles.selectFileBtn} onPress={pickDocument}>
           <MaterialIcons name="attachment" size={35} color="#1A237E" />
           <Text style={styles.selectFileText}>
             {selectedFilesCount > 0

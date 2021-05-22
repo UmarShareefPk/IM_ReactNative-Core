@@ -23,6 +23,7 @@ export const incidentsWithPage = (parameters) => {
           .catch((err)=>{    
                    console.log(err.message);
                    const data = err.message;
+                   console.log("error:", err)
                    dispatch({ type: 'INCIDENTS_WITH_PAGE_ERROR', data });
           });    
     }
