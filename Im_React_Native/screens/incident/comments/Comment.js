@@ -138,8 +138,7 @@ const Comment = ({
         <CommentAttachments
           editAble={editAble}
           attachments={comment.attachments}
-          incidentId={incidentId}
-        />
+         />
       ) : null}
     </View>
   );

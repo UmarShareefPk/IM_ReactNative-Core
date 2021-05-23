@@ -143,8 +143,7 @@ export const incidentsWithPage = (parameters) => {
 
   export const deleteAttachment = (type, userid, incidentId , file) => {
     return (dispatch, getState) => {    
-     
-        axios.defaults.headers = {'Authorization': `Bearer ${getState().userLogin.token + ""}`};
+           axios.defaults.headers = {'Authorization': `Bearer ${getState().userLogin.token + ""}`};
         const url = incidentsUrls.deleteAttachmentUrl
                 + "type=" + type
                 + "&commentId=" + file.CommentId 
