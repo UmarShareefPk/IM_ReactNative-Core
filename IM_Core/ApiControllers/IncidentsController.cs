@@ -161,7 +161,7 @@ namespace IM_Core.ApiControllers
         [Authorize]
         public IActionResult IncidentById(string Id)
         {
-            //Thread.Sleep(500);
+            //Thread.Sleep(2000);
             return Ok(IncidentsMethods.GetIncidentrById(Id));
         }
 

@@ -3,11 +3,13 @@ import {  JsonHubProtocol,
     LogLevel
 } from '@microsoft/signalr';  /*npm i --save @microsoft/signalr */
 
+import { baseUrl } from "../api/apiURLs";
+
 
 export   const incidentUpdatedSignalR =  (incidentId, userId) => {
   const connection = new HubConnectionBuilder()
   //.withUrl('https://localhost:44310/hubs/notifications')
-  .withUrl('http://192.168.100.173:52578/hubs/notifications')
+  .withUrl(baseUrl + 'hubs/notifications')
   .withAutomaticReconnect()
   .withHubProtocol(new JsonHubProtocol())
   .configureLogging(LogLevel.Information)
