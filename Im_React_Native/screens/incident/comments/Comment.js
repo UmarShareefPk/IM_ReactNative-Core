@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Dimensions, Alert } from 'react-native';
 import { Button, Input, FAB, ButtonGroup  } from 'react-native-elements';
 import { Feather, FontAwesome5, MaterialIcons,    } from '@expo/vector-icons'; 
 import { TouchableOpacity } from 'react-native';
-import CommentAttachments from './CommentAttachments';
+import Attachments from '../incidentDetails/Attachments';
 import { connect } from "react-redux";
 import { updateComment , deleteComment  } from "../../../store/actions/incidentsActions";
 import moment from "moment";;
@@ -135,8 +135,9 @@ const Comment = ({
       )}
 
       {viewAttchments ? (
-        <CommentAttachments
-          editAble={editAble}
+        <Attachments
+          type="comment"
+          commentEditAble={editAble}
           attachments={comment.attachments}
          />
       ) : null}

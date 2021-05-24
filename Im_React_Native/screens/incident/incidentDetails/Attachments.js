@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState, useEffect} from 'react'
 import { View, Text, StyleSheet, TouchableOpacity , Dimensions, FlatList, Alert } from 'react-native';
 import { Button, Input, FAB, ButtonGroup  } from 'react-native-elements';
 import { Feather, FontAwesome5, MaterialIcons,    } from '@expo/vector-icons'; 
@@ -7,8 +7,13 @@ import * as WebBrowser from 'expo-web-browser';
 import { deleteAttachment } from "../../../store/actions/incidentsActions";
 import { connect } from "react-redux";
 
-const CommentAttachments = ({ editAble, attachments, incidentId, userId, deleteAttachment }) => {
+const Attachments = ({ type, commentEditAble, attachments, incidentId, userId, deleteAttachment }) => {
   const [files, setFiles] = useState(attachments);
+  const [editAble, setEditAble] = useState(type=="comment"? commentEditAble : false);
+
+  useEffect(() => {
+    setEditAble(commentEditAble)
+  }, [commentEditAble])
 
   const deleteFiletConfirmation = (file) => {
     Alert.alert(
@@ -26,7 +31,10 @@ const CommentAttachments = ({ editAble, attachments, incidentId, userId, deleteA
   };
 
   const deleteFile = (userId, incidentId, file)=> {
-    deleteAttachment("comment", userId, incidentId, file);    
+    if (type == "comment")
+      deleteAttachment("comment", userId, incidentId, file);
+    else deleteAttachment("incicent", userId, incidentId, file);   
+
     setFiles(files.filter(f => f.Id!==file.Id));
   }
 
@@ -34,17 +42,18 @@ const CommentAttachments = ({ editAble, attachments, incidentId, userId, deleteA
 
    let url =
      incidentsUrls.downloadFileUrl +
-     "type=comment" +
+     "type=" +
+     (type == "comment" ? "comment" : "incident") +
      "&commentId=" +
-     file.CommentId +
+     (type == "comment" ? file.CommentId : "") +
      "&incidentId=" +
      incidentId +
      "&filename=" +
      file.FileName +
      "&contentType=" +
      file.ContentType;
-     let result = await WebBrowser.openBrowserAsync(url);    
-    
+
+     let result = await WebBrowser.openBrowserAsync(url);        
   }
 
   const renderFiles = ({ item }) => {
@@ -73,6 +82,18 @@ const CommentAttachments = ({ editAble, attachments, incidentId, userId, deleteA
 
   return (
     <View style={styles.attchments}>
+      {type == "comment" ? null : (
+        <View style={styles.title}>
+          <Text style={styles.titleText}>Attachments</Text>
+          <Button
+            onPress={() => setEditAble(!editAble)}
+            title=""
+            buttonStyle={styles.editBtn}
+            icon={<Feather name="edit-2" size={20} color="#1A237E" />}
+          />
+        </View>
+      )}
+
       <FlatList
         //numColumns={2}
         contentContainerStyle={{ justifyContent: "center" }}
@@ -99,7 +120,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CommentAttachments);
+export default connect(mapStateToProps, mapDispatchToProps)(Attachments);
 
 
   const styles = StyleSheet.create({

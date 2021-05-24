@@ -6,7 +6,7 @@ import { ScrollView } from 'react-native';
 import IncidentTitle from './IncidentTitle';
 import IncidentFields from './IncidentFields';
 import IncidentDescription from './IncidentDescription';
-import IncidentAttachments from './IncidentAttachments';
+import Attachments from './Attachments';
 import Comments from '../comments/Comments';
 import { connect } from "react-redux";
 import { allUsers } from "../../../store/actions/usersActions";
@@ -69,13 +69,16 @@ function IncidentDetails(    {
     if (tab == 0)
       return (
         <>
-       <ScrollView>
-          <IncidentDescription type="description" />
-          <IncidentDescription type="addtionalData" />
-          <IncidentAttachments />
+          <ScrollView>
+            <IncidentDescription type="description" />
+            <IncidentDescription type="addtionalData" />
+            <Attachments
+              type="incident"             
+              attachments={incidentData.Attachments}
+            />
           </ScrollView>
         </>
-      )
+      );
     else if (tab == 1)
       return (<Comments />) 
   }
