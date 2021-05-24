@@ -4,9 +4,7 @@ import { usersUrls } from "../../api/apiURLs";
 
   export const logIn = (credentials) => {
     return (dispatch, getState) => {   
-      console.log("calling axios now  ss", credentials);
       
-     
       axios({
             method: 'post',           
             url : usersUrls.authenticateUrl,

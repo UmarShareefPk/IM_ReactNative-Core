@@ -1,11 +1,12 @@
-import {React, useEffect} from 'react'
+import React, { useEffect} from 'react'
 import { connect } from 'react-redux';
 import {  JsonHubProtocol,   
     HubConnectionBuilder,
     LogLevel
 } from '@microsoft/signalr';
 import { commentRecieved, getAllNotifications } from "../store/actions/notificationsActions";
-import { updateHubId } from '../store/actions/userLoginActions'
+import { updateHubId } from '../store/actions/userLoginActions';
+import { baseUrl } from "../api/apiURLs";
 
 
   function Receiver({commentRecieved, updateHubId, userId, refreshNotifications}) {
@@ -13,7 +14,7 @@ import { updateHubId } from '../store/actions/userLoginActions'
     useEffect(() => {   
         
         const newConnection = new HubConnectionBuilder()
-        .withUrl('https://localhost:44310/hubs/notifications')
+        .withUrl(baseUrl +'hubs/notifications')
         .withAutomaticReconnect()
         .withHubProtocol(new JsonHubProtocol())
         .configureLogging(LogLevel.Information)
