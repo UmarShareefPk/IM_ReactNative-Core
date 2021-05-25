@@ -4,11 +4,9 @@ import { createAppContainer } from 'react-navigation';
 // stacks
 import IncidentStack from './IncidentStack';
 import UserStack from './UserStack';
-// import AboutStack from './aboutStack';
 
-// drawer navigation options
 const RootDrawerNavigator = createDrawerNavigator({
-  Incidents: {
+  Incidents1: {
     screen: IncidentStack,
   },
   Users: {
@@ -20,5 +18,5 @@ const RootDrawerNavigator = createDrawerNavigator({
 });
 
 export default createAppContainer(RootDrawerNavigator,{
-  
+
 });

@@ -43,7 +43,7 @@ function Users(props) {
 
     const addNewClick = ()=>{
       const data = false;      
-      setIncidentModelVisibility(true)
+     // setIncidentModelVisibility(true)
     }   
 
 
@@ -73,10 +73,11 @@ function Users(props) {
           animationType="slide"
           visible={incidentModelVisibility}
           onRequestClose={() => {
-            Alert.alert("Modal has been closed.");
+           // Alert.alert("Modal has been closed.");
             setIncidentModelVisibility(!incidentModelVisibility);
           }}
         >
+        <Text>New User</Text>
           {/* <AddIncident hideModal={setIncidentModelVisibility} reloadIncidents={loadIncident} /> */}
         </Modal>
 
