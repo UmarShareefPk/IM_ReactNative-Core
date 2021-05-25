@@ -2,45 +2,38 @@ import React,{useState, useEffect} from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Modal } from 'react-native'
 import { Button, Input, FAB  } from 'react-native-elements';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons'; 
-import Incident from './Incident';
-import AddIncident from '../AddIncident';
-import Pagination from '../../shared/pagination/Pagination';
+import User from './User'
+// import AddIncident from '../AddIncident';
+import Pagination from '../shared/pagination/Pagination';
+import { userssWithPage } from "../../store/actions/usersActions";
 import { connect } from 'react-redux'
-import { allUsers } from "../../../store/actions/usersActions";
-import { incidentsWithPage, cancel } from "../../../store/actions/incidentsActions";
 
 
 
-function Incidents(props) {
+
+function Users(props) {
   const [incidentModelVisibility, setIncidentModelVisibility] = useState(false);
   const [PageNumber, setPageNumber] = useState(1);
   const [PageSize, setPageSize] = useState(5);
   const [Search, setSearch] = useState("");
-  const [loading, setLoading] = useState(true);
+
 
   const {navigation} = props;
 
-  useEffect(() => {
-    props.getAllAssignees();      
-  }, []);
-
-
     useEffect(() => {
-       loadIncident();
+      loadUsers();
       return () => {
-        cancel(); // cancel axios
+       // cancel(); // cancel axios
       };
     }, [PageNumber, PageSize, Search]);
     
-    const loadIncident = () =>{
+    const loadUsers = () =>{
       const parameters = {
         PageNumber: PageNumber,
         PageSize: PageSize,
         Search: Search, 
       };
-      setLoading(true);
-      props.incidentsWithPage(parameters);
-      setLoading(false);
+       props.userssWithPage(parameters);     
     }
 
     const searchTextChange = (text) => {
@@ -49,41 +42,31 @@ function Incidents(props) {
     };
 
     const addNewClick = ()=>{
-      const data = false;
-      props.dispatch({ type: 'NEW_INCIDENT_STATUS', data }); // to clear all previous state
+      const data = false;      
       setIncidentModelVisibility(true)
-    }
-    
-    const getUserNameById = (id) => {   
-      let user = props.allAssignees.find((assignee) => {
-        return assignee.Id === id;
-      });   
-      if(!user){    
-        return id;
-      }
-      return user.FirstName + " " + user.LastName
-    }
+    }   
+
 
     const paginationChanged = (pageNumber, PageSize)=>{
       setPageNumber(pageNumber),
       setPageSize(PageSize);
     }
 
-    if(props.Error!==""){
-      return (
-        <View>
-          <Text>Error</Text>
-          <Text>{props.Error}</Text>
-          <Text>Please check your network and try loging back.</Text>
-        </View>
-      );
-    }
+    // if(props.Error!==""){
+    //   return (
+    //     <View>
+    //       <Text>Error</Text>
+    //       <Text>{props.Error}</Text>
+    //       <Text>Please check your network and try loging back.</Text>
+    //     </View>
+    //   );
+    // }
 
     return (
       <View style={styles.container}>
         <TouchableOpacity style={styles.addIncidentBtn} onPress={addNewClick}>
           <MaterialIcons name="add" size={24} color="#1A237E" />
-          <Text style={styles.addIncidentText}>New Incident</Text>
+          <Text style={styles.addIncidentText}>New User</Text>
         </TouchableOpacity>
 
         <Modal
@@ -94,7 +77,7 @@ function Incidents(props) {
             setIncidentModelVisibility(!incidentModelVisibility);
           }}
         >
-          <AddIncident hideModal={setIncidentModelVisibility} reloadIncidents={loadIncident} />
+          {/* <AddIncident hideModal={setIncidentModelVisibility} reloadIncidents={loadIncident} /> */}
         </Modal>
 
         <Input
@@ -108,20 +91,19 @@ function Incidents(props) {
         </View> */}
         <View style={{}}>
           <Pagination
-            TotalRecords={props.TotalIncidents}           
+            TotalRecords={props.TotalUsers}           
             search={Search}
             paginationChanged={paginationChanged}
           />
         </View>
 
         <ScrollView style={{ marginTop: 20 }}>
-          {props.Incidents.map((incident) => {
+          {props.Users.map((user) => {
             return (
-              <Incident
+              <User
                 navigation={navigation}
-                key={incident.Id}
-                incident={incident}
-                getUserNameById={getUserNameById}
+                key={user.Id}
+                user={user}               
               />
             );
           })}
@@ -131,23 +113,19 @@ function Incidents(props) {
 }
 
 const mapStateToProps = (state) => {
-  return{
-      allAssignees: state.users.users,
-      Incidents : state.incidents.Incidents,
-      TotalIncidents : state.incidents.TotalIncidents,
-      Error : state.incidents.IncidentsError   // if there is an error while getting data from API
-  }
+  return {
+    Users: state.users.UsersList,
+    TotalUsers: state.users.TotalUsers,
+  };
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-      incidentsWithPage: (parameters) => dispatch(incidentsWithPage(parameters)),
-      getAllAssignees: () => dispatch(allUsers()),
-      dispatch:dispatch
+    userssWithPage: (parameters) => dispatch(userssWithPage(parameters))
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Incidents);
+export default connect(mapStateToProps, mapDispatchToProps)(Users);
 
 const styles = StyleSheet.create({
     container :{
