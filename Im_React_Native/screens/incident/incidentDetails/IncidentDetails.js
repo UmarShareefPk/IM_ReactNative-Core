@@ -27,9 +27,8 @@ function IncidentDetails(    {
 ) {   
   
     useEffect(() => {    
-      console.log("avigation.getParam('Id')", navigation.getParam('Id'));
      let id = navigation.getParam('Id');
-        getIncidentById(id);   
+        getIncidentById(id);         
     }, [navigation.getParam('Id')]); // whenever Id changes get new
         
     const getUserNameById = (id) => {   

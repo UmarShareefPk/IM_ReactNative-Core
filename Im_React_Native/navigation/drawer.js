@@ -6,15 +6,15 @@ import IncidentStack from './IncidentStack';
 import UserStack from './UserStack';
 
 const RootDrawerNavigator = createDrawerNavigator({
-  Incidents1: {
+  incidents: {
     screen: IncidentStack,
   },
   Users: {
     screen: UserStack,
   },
-  Incidents2: {
-    screen: IncidentStack,
-  },
+  // Incidents2: {
+  //   screen: IncidentStack,
+  // },
 });
 
 export default createAppContainer(RootDrawerNavigator,{

@@ -19,7 +19,7 @@ import moment from "moment";;
 
    useEffect(() => {
     setCurrentValue(incidentData.Title);
-    setNewValue(incidentData.Title);
+    setNewValue(incidentData.Title);  
    }, [incidentData])
    
    const updateTitle = () => {

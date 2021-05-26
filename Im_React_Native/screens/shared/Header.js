@@ -6,14 +6,22 @@ import { signOut } from "../../store/actions/userLoginActions";
 import { connect } from 'react-redux';
 import {getAllNotifications} from '../../store/actions/notificationsActions';
 
-const Header = ({ title, signOut, user_Name, notifications, getNotifications, userId }) => {
+const Header = ({
+  navigation,
+  title,
+  signOut,
+  user_Name,
+  notifications,
+  getNotifications,
+  userId,
+}) => {
   const [notificationsVisibility, setNotificationsVisibility] = useState(false);
 
   const [unReadCount, setUnReadCount] = useState(0);
 
- useEffect(() => {
-   getNotifications(userId);
- }, []);
+  useEffect(() => {
+    getNotifications(userId);
+  }, []);
 
   useEffect(() => {
     setUnReadCount(
@@ -21,15 +29,18 @@ const Header = ({ title, signOut, user_Name, notifications, getNotifications, us
     );
   }, [notifications]);
 
+  const openIncidentDetails = (incidentId) => {
+    //dispatch(removeIncidentData()); // So that user does not see old data that is stored in redux (and local storage)
+    navigation.navigate("IncidentDetails", { Id: incidentId });
+    setNotificationsVisibility(false);
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.title}>
         <Text style={styles.titleText}>{title}</Text>
       </View>
-      <View style={styles.btns}>
-        {/* <Tooltip backgroundColor="#1A237E" popover={<Text style={{color:'white', padding:3,}}>Welcome Umar Shareef!</Text>}>
-           
-          </Tooltip> */}
+      <View style={styles.btns}>        
         <Text style={styles.username}>
           {user_Name
             .split(" ")
@@ -57,7 +68,7 @@ const Header = ({ title, signOut, user_Name, notifications, getNotifications, us
           setNotificationsVisibility(false);
         }}
       >
-        <Notifications showModal={setNotificationsVisibility} />
+        <Notifications showModal={setNotificationsVisibility} openIncidentDetails = {openIncidentDetails} />
       </Modal>
     </View>
   );

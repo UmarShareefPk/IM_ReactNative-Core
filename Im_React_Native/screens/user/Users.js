@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Modal } from 'rea
 import { Button, Input, FAB  } from 'react-native-elements';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons'; 
 import User from './User'
-// import AddIncident from '../AddIncident';
+ import AddUser from './AddUsert';
 import Pagination from '../shared/pagination/Pagination';
 import { userssWithPage } from "../../store/actions/usersActions";
 import { connect } from 'react-redux'
@@ -12,105 +12,85 @@ import { connect } from 'react-redux'
 
 
 function Users(props) {
-  const [incidentModelVisibility, setIncidentModelVisibility] = useState(false);
+  const [addUserModelVisibility, setAddUserModelVisibility] = useState(false);
   const [PageNumber, setPageNumber] = useState(1);
   const [PageSize, setPageSize] = useState(5);
   const [Search, setSearch] = useState("");
 
+  const { navigation } = props;
 
-  const {navigation} = props;
+  useEffect(() => {
+    loadUsers();
+  }, [PageNumber, PageSize, Search]);
 
-    useEffect(() => {
-      loadUsers();
-      return () => {
-       // cancel(); // cancel axios
-      };
-    }, [PageNumber, PageSize, Search]);
-    
-    const loadUsers = () =>{
-      const parameters = {
-        PageNumber: PageNumber,
-        PageSize: PageSize,
-        Search: Search, 
-      };
-       props.userssWithPage(parameters);     
-    }
-
-    const searchTextChange = (text) => {
-      setSearch(text);
-      setPageNumber(1);
+  const loadUsers = () => {
+    const parameters = {
+      PageNumber: PageNumber,
+      PageSize: PageSize,
+      Search: Search,
     };
+    props.userssWithPage(parameters);
+  };
 
-    const addNewClick = ()=>{
-      const data = false;      
-     // setIncidentModelVisibility(true)
-    }   
+  const searchTextChange = (text) => {
+    setSearch(text);
+    setPageNumber(1);
+  };
 
+  const addNewClick = () => {
+    const data = false;
+    setAddUserModelVisibility(true)
+  };
 
-    const paginationChanged = (pageNumber, PageSize)=>{
-      setPageNumber(pageNumber),
-      setPageSize(PageSize);
-    }
+  const paginationChanged = (pageNumber, PageSize) => {
+    setPageNumber(pageNumber), setPageSize(PageSize);
+  };
 
-    // if(props.Error!==""){
-    //   return (
-    //     <View>
-    //       <Text>Error</Text>
-    //       <Text>{props.Error}</Text>
-    //       <Text>Please check your network and try loging back.</Text>
-    //     </View>
-    //   );
-    // }
+  
 
-    return (
-      <View style={styles.container}>
-        <TouchableOpacity style={styles.addIncidentBtn} onPress={addNewClick}>
-          <MaterialIcons name="add" size={24} color="#1A237E" />
-          <Text style={styles.addIncidentText}>New User</Text>
-        </TouchableOpacity>
+  return (
+    <View style={styles.container}>
+      <TouchableOpacity style={styles.addUserBtn} onPress={addNewClick}>
+        <MaterialIcons name="add" size={24} color="#1A237E" />
+        <Text style={styles.addUserText}>New User</Text>
+      </TouchableOpacity>
 
-        <Modal
-          animationType="slide"
-          visible={incidentModelVisibility}
-          onRequestClose={() => {
-           // Alert.alert("Modal has been closed.");
-            setIncidentModelVisibility(!incidentModelVisibility);
-          }}
-        >
+      <Modal
+        animationType="slide"
+        visible={addUserModelVisibility}
+        onRequestClose={() => {
+          // Alert.alert("Modal has been closed.");
+          setAddUserModelVisibility(!addUserModelVisibility);
+        }}
+      >
         <Text>New User</Text>
-          {/* <AddIncident hideModal={setIncidentModelVisibility} reloadIncidents={loadIncident} /> */}
-        </Modal>
+        <AddUser showModal={setAddUserModelVisibility} reloadUsers={loadUsers} />
+      </Modal>
 
-        <Input
-          inputStyle={styles.searchBox}
-          placeholder="Search by title or description"
-          leftIcon={<FontAwesome name="search" size={24} color="#1A237E" />}
-          onChangeText={(val) => searchTextChange(val)}
-        />
-        {/*    <TouchableOpacity style={styles.buttonBox} onPress={()=>screenProps.login(false)} >
+      <Input
+        inputStyle={styles.searchBox}
+        placeholder="Search by title or description"
+        leftIcon={<FontAwesome name="search" size={24} color="#1A237E" />}
+        onChangeText={(val) => searchTextChange(val)}
+      />
+      {/*    <TouchableOpacity style={styles.buttonBox} onPress={()=>screenProps.login(false)} >
                    </TouchableOpacity>           
         </View> */}
-        <View style={{}}>
-          <Pagination
-            TotalRecords={props.TotalUsers}           
-            search={Search}
-            paginationChanged={paginationChanged}
-          />
-        </View>
-
-        <ScrollView style={{ marginTop: 20 }}>
-          {props.Users.map((user) => {
-            return (
-              <User
-                navigation={navigation}
-                key={user.Id}
-                user={user}               
-              />
-            );
-          })}
-        </ScrollView>
+      <View style={{}}>
+        <Pagination
+          TotalRecords={props.TotalUsers}
+          search={Search}
+          paginationChanged={paginationChanged}
+        />
       </View>
-    );
+
+      <ScrollView style={{ marginTop: 20 }}>
+        {props.Users.map((user) => {
+          return <User navigation={navigation} key={user.Id} user={user} />;
+        })}
+      </ScrollView>
+    </View>
+  );
 }
 
 const mapStateToProps = (state) => {
@@ -138,14 +118,14 @@ const styles = StyleSheet.create({
         justifyContent:'flex-start',
         alignItems : 'center'
     },
-    addIncidentBtn:{
-      flexDirection:'row',
-      alignSelf: 'stretch',
+    addUserBtn:{
+      flexDirection:'row',     
       alignItems : 'center',
       justifyContent:'flex-end',
-      marginRight:10,   
+      marginRight:10,  
+      width:120, 
     },
-    addIncidentText:{
+    addUserText:{
       fontSize:17,
       fontWeight:'bold',
       color:'#1A237E',

@@ -130,7 +130,7 @@ export const incidentsWithPage = (parameters) => {
         const url = incidentsUrls.getIncidentByIdUrl + incidentId; 
         axios.get(url)
           .then((response)=>{            
-             const data = response.data;                     
+             const data = response.data;                           
               dispatch({ type: 'INCIDENTS_BY_ID', data });
           })
           .catch((err)=>{                 

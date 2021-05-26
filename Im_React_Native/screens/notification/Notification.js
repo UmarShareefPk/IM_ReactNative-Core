@@ -12,7 +12,8 @@ const Notification = ({
   notification,
   setNotificationStatus,
   removeIncidentData,
-  getIncidentById
+  getIncidentById,
+  openIncidentDetails
 }) => {
     const [read, setRead] = useState(notification.IsRead);
     const containerStyle = read? styles.container  : {...styles.container, ...styles.unRead };
@@ -38,16 +39,7 @@ const Notification = ({
 
     const openIncident = (notification) => {
       setStatus(notification.Id, true);
-
-      // let path = "/Incident/" + notification.IncidentId;
-      // if (history.location.pathname !== path) {
-      //   // only change path if it is different      
-      //   removeIncidentData(); // So that user does not see old data that is stored in redux (and local storage)
-      // }
-      // else{      
-      //  getIncidentById(notification.IncidentId); //if already on the same incident, just get new data and update page
-      // }
-      // history.push(path); 
+      openIncidentDetails(notification.IncidentId); 
     }
 
     return (
@@ -57,19 +49,20 @@ const Notification = ({
             .split(" ")
             .reduce((initials, value) => (initials += value.slice(0, 1)), "")}
         </Text>
-
-        <Text style={notificationTextStyle}>{notification.NotifyAbout}</Text>
+        <TouchableOpacity style={styles.notificationTextBox} onPress={() => openIncident(notification)}>
+          <Text style={notificationTextStyle}>{notification.NotifyAbout}</Text>
+        </TouchableOpacity>
 
         <Text style={styles.time}>
           {moment(notification.CreateDate).fromNow()}
         </Text>
 
         {read ? (
-          <TouchableOpacity onPress={() =>  setStatus(notification.Id ,false)}>
+          <TouchableOpacity onPress={() => setStatus(notification.Id, false)}>
             <Ionicons name="reader-outline" size={24} color="gray" />
           </TouchableOpacity>
         ) : (
-          <TouchableOpacity onPress={() => setStatus(notification.Id ,true)}>
+          <TouchableOpacity onPress={() => setStatus(notification.Id, true)}>
             <Ionicons name="reader" size={24} color="#f5f5f5" />
           </TouchableOpacity>
         )}
@@ -105,10 +98,11 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         justifyContent:'space-between',
         alignItems:'center',
-        backgroundColor:'#ABDEFC',
+        //backgroundColor:'#ABDEFC',
+        backgroundColor:'white',
     },
     unRead:{
-      //backgroundColor:'#1A237E',
+     // backgroundColor:'#1A237E',
       backgroundColor:'#18A5F9',
     },
     username:{
@@ -117,6 +111,9 @@ const styles = StyleSheet.create({
         paddingHorizontal:8,
         paddingVertical:5,
         borderRadius:15
+    },
+    notificationTextBox:{
+      width:200,
     },
     notificationText:{
         flex:0.9,

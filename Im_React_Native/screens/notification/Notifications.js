@@ -7,7 +7,8 @@ import { connect } from 'react-redux';
 
 const Notifications = ({
   showModal,
-  notifications,  
+  notifications,
+  openIncidentDetails,  
 }) => {     
 
   return (
@@ -22,8 +23,8 @@ const Notifications = ({
       </View>
       <ScrollView>
         {notifications.map((noti, index) => {
-            if(index > 15) return;
-          return <Notification notification={noti} />;
+            if(index > 20) return;
+          return <Notification notification={noti} openIncidentDetails={openIncidentDetails} />;
         })}
       </ScrollView>
     </View>

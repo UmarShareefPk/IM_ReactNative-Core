@@ -81,6 +81,7 @@ function Incidents(props) {
 
     return (
       <View style={styles.container}>
+      
         <TouchableOpacity style={styles.addIncidentBtn} onPress={addNewClick}>
           <MaterialIcons name="add" size={24} color="#1A237E" />
           <Text style={styles.addIncidentText}>New Incident</Text>
@@ -156,15 +157,16 @@ const styles = StyleSheet.create({
         padding:5,
         flex:1,
         flexDirection:'column',
-        justifyContent:'flex-start',
+        justifyContent:'center',
         alignItems : 'center'
     },
     addIncidentBtn:{
-      flexDirection:'row',
-      alignSelf: 'stretch',
+      flexDirection:'row',     
       alignItems : 'center',
       justifyContent:'flex-end',
-      marginRight:10,   
+      marginRight:10,  
+      width:120, 
+      
     },
     addIncidentText:{
       fontSize:17,

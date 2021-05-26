@@ -40,6 +40,7 @@ const initState = {
          };
 
        case "INCIDENTS_BY_ID":
+         
          return {
            ...state,
            IncidentDetailError: "",
