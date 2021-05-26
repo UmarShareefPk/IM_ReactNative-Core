@@ -8,7 +8,6 @@ import { commentRecieved, getAllNotifications } from "../store/actions/notificat
 import { updateHubId } from '../store/actions/userLoginActions';
 import { baseUrl } from "../api/apiURLs";
 
-
   function Receiver({commentRecieved, updateHubId, userId, refreshNotifications}) {
 
     useEffect(() => {   
@@ -43,7 +42,8 @@ import { baseUrl } from "../api/apiURLs";
  
 
     return (
-        <>            
+        <>  
+      
         </>
     )
 }

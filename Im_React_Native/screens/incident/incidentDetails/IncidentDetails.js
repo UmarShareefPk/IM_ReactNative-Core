@@ -28,6 +28,7 @@ function IncidentDetails(    {
   
     useEffect(() => {    
      let id = navigation.getParam('Id');
+     console.log("navigation.getParam('Id') changed.")
         getIncidentById(id);         
     }, [navigation.getParam('Id')]); // whenever Id changes get new
         

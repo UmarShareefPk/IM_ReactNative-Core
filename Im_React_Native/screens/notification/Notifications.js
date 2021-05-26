@@ -23,7 +23,7 @@ const Notifications = ({
       </View>
       <ScrollView>
         {notifications.map((noti, index) => {
-            if(index > 20) return;
+            if(index > 30) return;
           return <Notification notification={noti} openIncidentDetails={openIncidentDetails} />;
         })}
       </ScrollView>

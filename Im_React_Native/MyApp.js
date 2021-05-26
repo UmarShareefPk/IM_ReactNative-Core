@@ -4,9 +4,10 @@ import Login from './screens/Login';
 import Navigator from './navigation/drawer';
 import { connect } from 'react-redux';
 
+
 function MyApp({token}) {
 
-  
+    
     if (token !==null && token !== undefined && token !=="")
         return <Navigator></Navigator>;
     //  return <Navigator screenProps={{ login: setLoginStatus }}></Navigator>;

@@ -22,7 +22,7 @@ import { connect  } from 'react-redux';
   };
 
   const openIncident = () => {  
-    //dispatch(removeIncidentData()); // So that user does not see old data that is stored in redux (and local storage)
+    dispatch(removeIncidentData()); // So that user does not see old data that is stored in redux (and local storage)
     navigation.navigate("IncidentDetails", { Id: incident.Id })
   }
 

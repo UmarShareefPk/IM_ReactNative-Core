@@ -5,6 +5,8 @@ import Notifications from '../notification/Notifications';
 import { signOut } from "../../store/actions/userLoginActions";
 import { connect } from 'react-redux';
 import {getAllNotifications} from '../../store/actions/notificationsActions';
+import Receiver from "../../signalR/Receiver"
+import { removeIncidentData } from "../../store/actions/incidentsActions";
 
 const Header = ({
   navigation,
@@ -14,6 +16,7 @@ const Header = ({
   notifications,
   getNotifications,
   userId,
+  removeIncidentData,
 }) => {
   const [notificationsVisibility, setNotificationsVisibility] = useState(false);
 
@@ -30,13 +33,17 @@ const Header = ({
   }, [notifications]);
 
   const openIncidentDetails = (incidentId) => {
-    //dispatch(removeIncidentData()); // So that user does not see old data that is stored in redux (and local storage)
-    navigation.navigate("IncidentDetails", { Id: incidentId });
+    removeIncidentData(); 
+    setTimeout(() => {
+      navigation.navigate("IncidentDetails", { Id: incidentId });
+    }, 0);
+    
     setNotificationsVisibility(false);
   }
 
   return (
     <View style={styles.container}>
+    <Receiver />
       <View style={styles.title}>
         <Text style={styles.titleText}>{title}</Text>
       </View>
@@ -89,6 +96,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     signOut: () => dispatch(signOut()),
     getNotifications: (userid) => dispatch(getAllNotifications(userid)),   
+    removeIncidentData: (userid) => dispatch(removeIncidentData()),   
   }
 }
 
