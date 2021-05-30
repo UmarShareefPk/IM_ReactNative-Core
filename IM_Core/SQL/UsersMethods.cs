@@ -125,6 +125,22 @@ namespace IM.SQL
             { };
 
             var dbResponse = DataAccessMethods.ExecuteProcedure("GetAllUsers", parameters);
+            if(dbResponse.Error)
+            {
+                var users = new List<User>();
+                users.Add(new User
+                                {
+                                    Id= dbResponse.ErrorMsg,
+                                    CreateDate = DateTime.Now,
+                                    FirstName = dbResponse.ErrorMsg,
+                                    LastName = dbResponse.ErrorMsg,
+                                    ProfilePic = dbResponse.ErrorMsg,
+                                    Email = dbResponse.ErrorMsg,
+                                    Phone = dbResponse.ErrorMsg,
+                                }
+                );
+                return users;
+            }
 
             dt = dbResponse.Ds.Tables[0];
 

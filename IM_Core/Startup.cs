@@ -47,7 +47,15 @@ namespace IM_Core
                     policy.AllowAnyHeader()
                         .AllowAnyMethod()
                         //.AllowAnyOrigin()
-                        .WithOrigins("https://localhost:44338", "http://localhost:3000", "http://localhost:4200")
+                        .WithOrigins(
+                            "https://localhost:44338", 
+                            "http://localhost:3000", 
+                            "http://localhost:4200",
+                            "http://localhost",
+                            "http://localhost/ImAngular"
+                           // "http://localhost:4200",
+                            //"http://localhost:4200"
+                            )
                         .AllowCredentials();
                 });
             });
