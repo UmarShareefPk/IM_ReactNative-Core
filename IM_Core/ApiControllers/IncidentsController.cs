@@ -255,14 +255,50 @@ namespace IM_Core.ApiControllers
             IncidentsMethods.UpdateComment(C.Id, C.CommentText, C.UserId);
         }
 
-        // [Authorize]
-        [HttpGet("GetIncidentsWithPage")]
-        [Authorize]
+         [Authorize]
+        [HttpGet("GetIncidentsWithPage")]        
         public IncidentsWithPage GetIncidentsWithPage(int PageSize, int PageNumber, string SortBy, string SortDirection, string Search)
         {
              //Thread.Sleep(000);
             return IncidentsMethods.GetIncidentsPage(PageSize, PageNumber, SortBy, SortDirection, Search);
         }
+
+        [Authorize]
+        [HttpGet("KPI")]       
+        public object GetKPI(string UserId)
+        {            
+            return IncidentsMethods.KPI(UserId);
+        }
+
+        [Authorize]
+        [HttpGet("OverallWidget")]
+        public object GetOverallWidget (string UserId)
+        {            
+            return IncidentsMethods.OverallWidget();
+        }
+
+        [Authorize]
+        [HttpGet("Last5Incidents")]
+        public object GetLast5Incidents(string UserId)
+        {
+            return IncidentsMethods.Last5Incidents();
+        }
+
+        [Authorize]
+        [HttpGet("Oldest5UnresolvedIncidents")]
+        public object GetOldest5UnresolvedIncidents(string UserId)
+        {
+            return IncidentsMethods.Oldest5UnresolvedIncidents();
+        }
+
+        [Authorize]
+        [HttpGet("MostAssignedToUsersIncidents")]
+        public object GetMostAssignedToUsersIncidents(string UserId)
+        {
+            return IncidentsMethods.MostAssignedToUsersIncidents();
+        }
+
+
 
         // GET: api/<IncidentsController>
         [HttpGet]
